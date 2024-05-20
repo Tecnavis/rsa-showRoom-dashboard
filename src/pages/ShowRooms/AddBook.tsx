@@ -1,8 +1,10 @@
+
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { getFirestore } from 'firebase/firestore'; // Import getFirestore
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
+import { Header } from '@mantine/core';
 
 const AddBook = () => {
     const [formData, setFormData] = useState({
@@ -65,6 +67,7 @@ const AddBook = () => {
 
     return (
         <div style={{ padding: '6px', flex: 1, marginTop: '2rem', marginRight: '6rem', marginLeft: '6rem', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
+           
             <h5 className="font-semibold text-lg dark:text-white-light p-4">Add Bookings</h5>
             <div style={{ padding: '1rem', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
                 <div className="mb-4">

@@ -32,7 +32,17 @@ const Header = () => {
                             <img className="w-32 ltr:-ml-2 rtl:-mr-2 inline" src="/assets/images/auth/rsa-png.png" alt="logo" />
                         </Link>
                     </div>
-                    <div className="toll-free-number text-gray-600 dark:text-gray-400">Toll-Free: {tollFreeNumber}</div>
+                    <div 
+                        className="toll-free-number text-gray-600 dark:text-gray-400" 
+                        style={{
+                            fontSize: '1.25rem', 
+                            fontWeight: 'bold',
+                            color: '#FF6347',
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)'  // Slight shadow for depth
+                        }}
+                    >
+                        Toll-Free: {tollFreeNumber}
+                    </div>
                 </div>
             </div>
         </header>
