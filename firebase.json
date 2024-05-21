@@ -1,7 +1,8 @@
 {
   "hosting": {
-    "public": "dist",
-    "site": "rsa-driver-dashboard",
+    "site": "rsa-showroom-dashboard",
+
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -14,5 +15,6 @@
       }
     ],
     "predeploy": ["vite build"]
+
   }
 }
