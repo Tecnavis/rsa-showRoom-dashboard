@@ -2,7 +2,7 @@
   "hosting": {
     "site": "rsa-showroom-dashboard",
 
-    "public": "public",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
