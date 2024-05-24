@@ -1,4 +1,3 @@
-
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { getFirestore } from 'firebase/firestore'; // Import getFirestore
@@ -7,26 +6,29 @@ import { v4 as uuid } from 'uuid';
 import { Header } from '@mantine/core';
 
 const AddBook = () => {
+    const showroomId = localStorage.getItem('showroomId');
+    console.log("first", showroomId);
+
     const [formData, setFormData] = useState({
         fileNumber: '',
         customerName: '',
         phoneNumber: '',
-        vehicleSection:'',
-
+        vehicleSection: '',
         serviceType: '',
         vehicleNumber: '',
         vehicleModel: '',
         comments: '',
     });
+
     const db = getFirestore();
     const navigate = useNavigate();
     const [bookingId, setBookingId] = useState<string>('');
-    
+
     useEffect(() => {
         const newBookingId = uuid().substring(0, 6);
         setBookingId(newBookingId);
     }, []);
-    
+
     const handleInputChange = (field, value) => {
         setFormData({
             ...formData,
@@ -41,6 +43,7 @@ const AddBook = () => {
 
             const docRef = await addDoc(collection(db, 'bookings'), {
                 ...formData,
+                showroomId: showroomId, // Include showroomId in the document
                 dateTime: dateTime,
                 createdAt: serverTimestamp(),
                 bookingStatus: 'ShowRoom Booking',
@@ -56,7 +59,7 @@ const AddBook = () => {
                 serviceType: '',
                 vehicleNumber: '',
                 vehicleModel: '',
-                vehicleSection:'',
+                vehicleSection: '',
                 comments: '',
             });
             navigate('/showrm');
@@ -67,7 +70,6 @@ const AddBook = () => {
 
     return (
         <div style={{ padding: '6px', flex: 1, marginTop: '2rem', marginRight: '6rem', marginLeft: '6rem', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
-           
             <h5 className="font-semibold text-lg dark:text-white-light p-4">Add Bookings</h5>
             <div style={{ padding: '1rem', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
                 <div className="mb-4">
@@ -89,7 +91,7 @@ const AddBook = () => {
                 </div>
                 <div className="flex items-center mt-4">
                     <label htmlFor="vehicleSection" className="ltr:mr-2 rtl:ml-2 w-1/3 mb-0">
-                    Vehicle Section
+                        Vehicle Section
                     </label>
                     <select
                         id="vehicleSection"
@@ -111,7 +113,6 @@ const AddBook = () => {
                         <option value="Service Center">Service Center</option>
                         <option value="Body Shopes">Body Shopes</option>
                         <option value="ShowRooms">ShowRooms</option>
-                       
                     </select>
                 </div>
                 <div className="mt-4 flex items-center">

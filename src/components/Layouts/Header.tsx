@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getFirestore, collection, getDocs } from 'firebase/firestore'; 
+import { getFirestore, collection, doc, getDoc } from 'firebase/firestore'; 
 
 const Header = () => {
     const [tollFreeNumber, setTollFreeNumber] = useState(''); 
+    const showroomId = localStorage.getItem('showroomId');
 
     useEffect(() => {
         const fetchTollFreeNumber = async () => {
             try {
                 const db = getFirestore(); 
-                const q = collection(db, 'showroom'); 
-                const querySnapshot = await getDocs(q); 
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
+                const showroomDocRef = doc(db, 'showroom', showroomId);
+                const docSnap = await getDoc(showroomDocRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
                     setTollFreeNumber(data.tollfree); 
-                });
+                } else {
+                    console.log('No such document!');
+                }
             } catch (error) {
                 console.error('Error fetching toll-free number:', error);
             }
         };
 
-        fetchTollFreeNumber();
-    }, []);
+        if (showroomId) {
+            fetchTollFreeNumber();
+        }
+    }, [showroomId]);
 
     return (
         <header>

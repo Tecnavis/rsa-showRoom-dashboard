@@ -3,17 +3,25 @@ import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
 const BodyShopes = () => {
+    const showroomId = localStorage.getItem('showroomId');
+
   const [bookings, setBookings] = useState([]);
+  const userName = localStorage.getItem('userName'); // Get driverId from localStorage
+  const password = localStorage.getItem('password');
+  console.log("first",userName)
+  console.log("first",password)
 
     useEffect(() => {
         const fetchBookings = async () => {
             try {
                 const db = getFirestore();
-                const q = query(collection(db, 'bookings'), where('vehicleSection', '==', 'Body Shopes'));
-                const querySnapshot = await getDocs(q);
-                const bookingsData = [];
-                querySnapshot.forEach((doc) => {
-                    const booking = doc.data();
+                const q = query(collection(db, 'bookings'), where('vehicleSection', '==', 'Body Shopes'),
+                where('showroomId', '==', showroomId)
+              );
+              const querySnapshot = await getDocs(q);
+              const bookingsData = [];
+              querySnapshot.forEach((doc) => {
+                const booking = doc.data();
                     bookingsData.push({
                         id: doc.id,
                         dateTime: booking.dateTime,

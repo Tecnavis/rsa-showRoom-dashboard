@@ -15,6 +15,9 @@ const ShowRm = () => {
   // State to track active tab and selected dropdown option
   const [activeTab, setActiveTab] = useState('serviceCenter');
   const [selectedOption, setSelectedOption] = useState('bookings');
+  const userName = localStorage.getItem('userName'); // Get driverId from localStorage
+  const password = localStorage.getItem('password');
+  const showroomId = localStorage.getItem('showroomId');
 
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);

@@ -4,16 +4,19 @@ import { getFirestore, collection, getDocs, query, where } from 'firebase/firest
 
 const PendingBookingsShowRoom = () => {
   const [bookings, setBookings] = useState([]);
+  const showroomId = localStorage.getItem('showroomId');
 
     useEffect(() => {
         const fetchBookings = async () => {
             try {
                 const db = getFirestore();
-                const q = query(collection(db, 'bookings'), where('vehicleSection', '==', 'ShowRooms'));
-                const querySnapshot = await getDocs(q);
-                const bookingsData = [];
-                querySnapshot.forEach((doc) => {
-                    const booking = doc.data();
+                const q = query(collection(db, 'bookings'), where('vehicleSection', '==', 'ShowRooms'),
+                where('showroomId', '==', showroomId)
+              );
+              const querySnapshot = await getDocs(q);
+              const bookingsData = [];
+              querySnapshot.forEach((doc) => {
+                const booking = doc.data();
                     bookingsData.push({
                         id: doc.id,
                         dateTime: booking.dateTime,
