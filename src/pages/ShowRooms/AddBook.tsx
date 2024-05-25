@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getFirestore } from 'firebase/firestore'; // Import getFirestore
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
+import Header from '../../components/Layouts/Header';
 
 const AddBook = () => {
     const showroomId = localStorage.getItem('showroomId');
@@ -97,6 +98,9 @@ const AddBook = () => {
         }
     };
     return (
+        <div>
+                  <Header />
+
         <div style={{ padding: '1.5rem', flex: 1, marginTop: '2rem', margin: '2rem auto', maxWidth: '800px', boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)', borderRadius: '10px',  backgroundColor: 'lightblue' }}>
             <h5 className="font-semibold text-lg p-4" style={{ marginBottom: '1rem', borderBottom: '1px solid #ddd', paddingBottom: '1rem' }}>Add Bookings</h5>
             <div style={{ padding: '1rem' }}>
@@ -307,6 +311,7 @@ const AddBook = () => {
                     </button>
                 </div>
             </div>
+        </div>
         </div>
     );
 };
