@@ -10,8 +10,12 @@ const CompletedBodyBookings = () => {
         const fetchBookings = async () => {
             try {
                 const db = getFirestore();
-                const q = query(collection(db, 'bookings'), where('vehicleSection', '==', 'Body Shopes'), where('showroomId', '==', showroomId)
-            );
+                const q = query(
+                    collection(db, 'bookings'),
+                    where('vehicleSection', '==', 'Body Shopes'),
+                    where('showroomId', '==', showroomId),
+                    where('status', '==', 'Order Completed') // Add this where clause
+                  );
             const querySnapshot = await getDocs(q);
             const bookingsData = [];
             querySnapshot.forEach((doc) => {

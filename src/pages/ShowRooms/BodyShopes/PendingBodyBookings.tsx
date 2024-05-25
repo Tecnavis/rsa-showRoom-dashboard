@@ -10,8 +10,12 @@ const PendingBodyBookings = () => {
         const fetchBookings = async () => {
             try {
                 const db = getFirestore();
+                if (showroomId) {
+                    const statusConditions = ['booking added', 'Contacted Customer', 'Vehicle Picked', 'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff'];
+                    
                 const q = query(collection(db, 'bookings'), where('vehicleSection', '==', 'Body Shopes'),
-                where('showroomId', '==', showroomId)
+                where('showroomId', '==', showroomId),
+                where('status', 'in', statusConditions) // Filter based on status conditions
               );
               const querySnapshot = await getDocs(q);
               const bookingsData = [];
@@ -27,14 +31,16 @@ const PendingBodyBookings = () => {
                     });
                 });
                 setBookings(bookingsData);
+              } else {
+                console.error('showroomId is not available');
+              }
             } catch (error) {
-                console.error('Error fetching bookings:', error);
+              console.error('Error fetching bookings:', error);
             }
-        };
-        
-    
-        fetchBookings();
-    }, []);
+          };
+          
+          fetchBookings();
+        }, [showroomId]);
     
 
     return (

@@ -12,7 +12,9 @@ const CompleteShowRoom = () => {
             try {
                 const db = getFirestore();
                 const q = query(collection(db, 'bookings'), where('vehicleSection', '==', 'ShowRooms'),
-                where('showroomId', '==', showroomId)
+                where('showroomId', '==', showroomId),
+                where('status', '==', 'Order Completed') // Add this where clause
+
               );
               const querySnapshot = await getDocs(q);
               const bookingsData = [];

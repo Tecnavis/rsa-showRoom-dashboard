@@ -9,13 +9,13 @@ const PendingBookings = () => {
     const fetchBookings = async () => {
       try {
         const db = getFirestore();
-        // Ensure showroomId is available
         if (showroomId) {
-          // Query to fetch bookings with the required conditions
+          const statusConditions = ['booking added', 'Contacted Customer', 'Vehicle Picked', 'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff'];
           const q = query(
             collection(db, 'bookings'),
             where('vehicleSection', '==', 'Service Center'),
-            where('showroomId', '==', showroomId)
+            where('showroomId', '==', showroomId),
+            where('status', 'in', statusConditions) // Filter based on status conditions
           );
           const querySnapshot = await getDocs(q);
           const bookingsData = [];
@@ -38,7 +38,7 @@ const PendingBookings = () => {
         console.error('Error fetching bookings:', error);
       }
     };
-
+    
     fetchBookings();
   }, [showroomId]);
 

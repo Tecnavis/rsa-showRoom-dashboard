@@ -1,9 +1,8 @@
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, getDoc, doc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { getFirestore } from 'firebase/firestore'; // Import getFirestore
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
-import { Header } from '@mantine/core';
 
 const AddBook = () => {
     const showroomId = localStorage.getItem('showroomId');
@@ -22,12 +21,41 @@ const AddBook = () => {
 
     const db = getFirestore();
     const navigate = useNavigate();
-    const [bookingId, setBookingId] = useState<string>('');
+    const [bookingId, setBookingId] = useState('');
+    const [showroomData, setShowroomData] = useState(null);
 
     useEffect(() => {
-        const newBookingId = uuid().substring(0, 6);
+        const newBookingId = uuid().substring(0, 4);
         setBookingId(newBookingId);
     }, []);
+
+    useEffect(() => {
+        const fetchShowroomData = async () => {
+            try {
+                const showroomDocRef = doc(db, 'showroom', showroomId);
+                const showroomDocSnap = await getDoc(showroomDocRef);
+                if (showroomDocSnap.exists()) {
+                    const data = showroomDocSnap.data();
+                    console.log('Showroom Data:', data);
+                    setShowroomData(data);
+
+                    if (data.showroomId) {
+                        const updatedFileNumber = `${data.showroomId}${bookingId}`;
+                        setFormData(prevFormData => ({
+                            ...prevFormData,
+                            fileNumber: updatedFileNumber,
+                        }));
+                    }
+                } else {
+                    console.log('Showroom document does not exist');
+                }
+            } catch (error) {
+                console.error('Error fetching showroom data:', error);
+            }
+        };
+
+        fetchShowroomData();
+    }, [showroomId, db, bookingId]);
 
     const handleInputChange = (field, value) => {
         setFormData({
@@ -48,7 +76,8 @@ const AddBook = () => {
                 createdAt: serverTimestamp(),
                 bookingStatus: 'ShowRoom Booking',
                 status: 'booking added',
-                bookingId: bookingId, // Include the bookingId in the document
+                bookingId: bookingId,
+                company: 'RSA',
             });
             console.log('Document added successfully with ID:', docRef.id);
 
@@ -67,18 +96,17 @@ const AddBook = () => {
             console.error('Error adding document: ', error);
         }
     };
-
     return (
-        <div style={{ padding: '6px', flex: 1, marginTop: '2rem', marginRight: '6rem', marginLeft: '6rem', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
-            <h5 className="font-semibold text-lg dark:text-white-light p-4">Add Bookings</h5>
-            <div style={{ padding: '1rem', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
-                <div className="mb-4">
-                    <strong>Booking ID: </strong> {bookingId}
-                </div>
-                <div className="mt-4 flex items-center">
-                    <label htmlFor="fileNumber" className="ltr:mr-3 rtl:ml-2 w-1/3 mb-0">
-                        File Number
-                    </label>
+        <div style={{ padding: '1.5rem', flex: 1, marginTop: '2rem', margin: '2rem auto', maxWidth: '800px', boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)', borderRadius: '10px',  backgroundColor: 'lightblue' }}>
+            <h5 className="font-semibold text-lg p-4" style={{ marginBottom: '1rem', borderBottom: '1px solid #ddd', paddingBottom: '1rem' }}>Add Bookings</h5>
+            <div style={{ padding: '1rem' }}>
+            <div className="mb-4" style={{ marginBottom: '20px', fontFamily: 'Arial, sans-serif', color: '#333', padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+  <strong style={{ fontWeight: 'bold', color: '#007bff', fontSize: '16px' }}>Booking ID: </strong> 
+  <span style={{ fontSize: '16px', color: '#333' }}>{bookingId}</span>
+</div>
+
+                <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>
+                    <label htmlFor="fileNumber" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>File Number</label>
                     <input
                         id="fileNumber"
                         type="text"
@@ -86,13 +114,20 @@ const AddBook = () => {
                         className="form-input flex-1"
                         placeholder="Enter File Number"
                         value={formData.fileNumber}
+                        style={{
+                            width: '100%',
+                            padding: '0.75rem',
+                            border: '1px solid #ccc',
+                            borderRadius: '5px',
+                            fontSize: '1rem',
+                            outline: 'none',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        }}
                         onChange={(e) => handleInputChange('fileNumber', e.target.value)}
                     />
                 </div>
-                <div className="flex items-center mt-4">
-                    <label htmlFor="vehicleSection" className="ltr:mr-2 rtl:ml-2 w-1/3 mb-0">
-                        Vehicle Section
-                    </label>
+                <div className="flex items-center" style={{ marginBottom: '1rem' }}>
+                    <label htmlFor="vehicleSection" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Vehicle Section</label>
                     <select
                         id="vehicleSection"
                         name="vehicleSection"
@@ -100,7 +135,7 @@ const AddBook = () => {
                         value={formData.vehicleSection}
                         style={{
                             width: '100%',
-                            padding: '0.5rem',
+                            padding: '0.75rem',
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             fontSize: '1rem',
@@ -115,10 +150,8 @@ const AddBook = () => {
                         <option value="ShowRooms">ShowRooms</option>
                     </select>
                 </div>
-                <div className="mt-4 flex items-center">
-                    <label htmlFor="customerName" className="ltr:mr-3 rtl:ml-2 w-1/3 mb-0">
-                        Customer Name
-                    </label>
+                <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>
+                    <label htmlFor="customerName" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Customer Name</label>
                     <input
                         id="customerName"
                         type="text"
@@ -126,13 +159,20 @@ const AddBook = () => {
                         className="form-input flex-1"
                         placeholder="Enter Name"
                         value={formData.customerName}
+                        style={{
+                            width: '100%',
+                            padding: '0.75rem',
+                            border: '1px solid #ccc',
+                            borderRadius: '5px',
+                            fontSize: '1rem',
+                            outline: 'none',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        }}
                         onChange={(e) => handleInputChange('customerName', e.target.value)}
                     />
                 </div>
-                <div className="mt-4 flex items-center">
-                    <label htmlFor="phoneNumber" className="ltr:mr-3 rtl:ml-2 w-1/3 mb-0">
-                        Phone Number
-                    </label>
+                <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>
+                    <label htmlFor="phoneNumber" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Phone Number</label>
                     <input
                         id="phoneNumber"
                         type="text"
@@ -140,13 +180,20 @@ const AddBook = () => {
                         className="form-input flex-1"
                         placeholder="Enter Phone Number"
                         value={formData.phoneNumber}
+                        style={{
+                            width: '100%',
+                            padding: '0.75rem',
+                            border: '1px solid #ccc',
+                            borderRadius: '5px',
+                            fontSize: '1rem',
+                            outline: 'none',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                        }}
                         onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
                     />
                 </div>
-                <div className="flex items-center mt-4">
-                    <label htmlFor="serviceType" className="ltr:mr-2 rtl:ml-2 w-1/3 mb-0">
-                        Service Type
-                    </label>
+                <div className="flex items-center" style={{ marginBottom: '1rem' }}>
+                    <label htmlFor="serviceType" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Service Type</label>
                     <select
                         id="serviceType"
                         name="serviceType"
@@ -154,7 +201,7 @@ const AddBook = () => {
                         value={formData.serviceType}
                         style={{
                             width: '100%',
-                            padding: '0.5rem',
+                            padding: '0.75rem',
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             fontSize: '1rem',
@@ -177,10 +224,8 @@ const AddBook = () => {
                         <option value="S Lorry Crane Bed">S Lorry Crane Bed</option>
                     </select>
                 </div>
-                <div className="mt-4 flex items-center">
-                    <label htmlFor="vehicleNumber" className="ltr:mr-2 rtl:ml-2 w-1/3 mb-0">
-                        Customer Vehicle Number
-                    </label>
+                <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>
+                    <label htmlFor="vehicleNumber" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Customer Vehicle Number</label>
                     <input
                         id="vehicleNumber"
                         type="text"
@@ -190,7 +235,7 @@ const AddBook = () => {
                         value={formData.vehicleNumber}
                         style={{
                             width: '100%',
-                            padding: '0.5rem',
+                            padding: '0.75rem',
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             fontSize: '1rem',
@@ -200,10 +245,8 @@ const AddBook = () => {
                         onChange={(e) => handleInputChange('vehicleNumber', e.target.value)}
                     />
                 </div>
-                <div className="flex items-center mt-4">
-                    <label htmlFor="vehicleModel" className="ltr:mr-2 rtl:ml-2 w-1/3 mb-0">
-                        Brand Name
-                    </label>
+                <div className="flex items-center" style={{ marginBottom: '1rem' }}>
+                    <label htmlFor="vehicleModel" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Brand Name</label>
                     <input
                         id="vehicleModel"
                         name="vehicleModel"
@@ -211,7 +254,7 @@ const AddBook = () => {
                         value={formData.vehicleModel}
                         style={{
                             width: '100%',
-                            padding: '0.5rem',
+                            padding: '0.75rem',
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             fontSize: '1rem',
@@ -221,16 +264,16 @@ const AddBook = () => {
                         onChange={(e) => handleInputChange('vehicleModel', e.target.value)}
                     />
                 </div>
-                <div className="mt-4 flex items-center">
+                <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>
                     <textarea
-                        id="reciever-name"
-                        name="reciever-name"
+                        id="comments"
+                        name="comments"
                         className="form-input flex-1"
                         placeholder="Comments"
                         value={formData.comments}
                         style={{
                             width: '100%',
-                            padding: '0.5rem',
+                            padding: '0.75rem',
                             border: '1px solid #ccc',
                             borderRadius: '5px',
                             fontSize: '1rem',
@@ -246,14 +289,19 @@ const AddBook = () => {
                         onClick={handleSubmit}
                         className="btn btn-primary"
                         style={{
-                            backgroundColor: '#28a745',
+                            backgroundColor: '#007bff',
                             color: '#fff',
-                            padding: '0.5rem',
+                            padding: '0.75rem',
                             width: '100%',
                             border: 'none',
                             borderRadius: '5px',
+                            fontSize: '1rem',
                             cursor: 'pointer',
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                            transition: 'background-color 0.3s ease',
                         }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
+                        onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
                     >
                         Save
                     </button>
