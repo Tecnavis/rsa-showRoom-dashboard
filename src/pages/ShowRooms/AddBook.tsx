@@ -16,7 +16,7 @@ const AddBook = () => {
         vehicleSection: '',
         serviceType: '',
         vehicleNumber: '',
-        vehicleModel: '',
+        // vehicleModel: '',
         comments: '',
     });
 
@@ -43,12 +43,14 @@ const AddBook = () => {
                     console.log('Showroom Data:', data);
                     setShowroomData(data);
 
-                    if (data.showroomId) {
-                        const updatedFileNumber = `${data.showroomId}${bookingId}`;
+                    if (data.ShowRoomId) {
+                        const updatedFileNumber = `${data.ShowRoomId}${bookingId}`;
                         setFormData(prevFormData => ({
                             ...prevFormData,
                             fileNumber: updatedFileNumber,
                         }));
+                        console.log('Updated File Number:', updatedFileNumber); 
+
                     }
                 } else {
                     console.log('Showroom document does not exist');
@@ -69,8 +71,8 @@ const AddBook = () => {
     };
 
     const validateForm = () => {
-        const { customerName, phoneNumber, vehicleSection, serviceType, vehicleNumber, vehicleModel } = formData;
-        return customerName && phoneNumber && vehicleSection && serviceType && vehicleNumber && vehicleModel;
+        const { customerName, phoneNumber, vehicleSection, serviceType, vehicleNumber } = formData;
+        return customerName && phoneNumber && vehicleSection && serviceType && vehicleNumber ;
     };
 
     const handleSubmit = async () => {
@@ -104,14 +106,14 @@ const AddBook = () => {
                 phoneNumber: '',
                 serviceType: '',
                 vehicleNumber: '',
-                vehicleModel: '',
+                // vehicleModel: '',
                 vehicleSection: '',
                 comments: '',
             });
             navigate('/showrm');
         } catch (error) {
             console.error('Error adding document: ', error);
-            setError('Failed to add booking. Please try again.');
+            setError(`Failed to add booking. Please try again.`);
         } finally {
             setLoading(false);
         }
@@ -148,7 +150,7 @@ const AddBook = () => {
                                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                             }}
                             onChange={(e) => handleInputChange('fileNumber', e.target.value)}
-                            disabled
+                            readOnly 
                         />
                     </div>
                     <div className="flex items-center" style={{ marginBottom: '1rem' }}>
@@ -270,7 +272,7 @@ const AddBook = () => {
                             onChange={(e) => handleInputChange('vehicleNumber', e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center" style={{ marginBottom: '1rem' }}>
+                    {/* <div className="flex items-center" style={{ marginBottom: '1rem' }}>
                         <label htmlFor="vehicleModel" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Brand Name</label>
                         <input
                             id="vehicleModel"
@@ -288,7 +290,7 @@ const AddBook = () => {
                             }}
                             onChange={(e) => handleInputChange('vehicleModel', e.target.value)}
                         />
-                    </div>
+                    </div> */}
                     <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>
                         <textarea
                             id="comments"
