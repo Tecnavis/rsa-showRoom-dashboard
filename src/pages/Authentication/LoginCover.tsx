@@ -14,7 +14,6 @@ const LoginCover = () => {
         e.preventDefault();
     
         try {
-            // Query to check userName and password
             const q = query(collection(db, 'showroom'), where('userName', '==', userName), where('password', '==', password));
             const querySnapshot = await getDocs(q);
     
@@ -23,7 +22,6 @@ const LoginCover = () => {
                 querySnapshot.forEach(doc => {
                     showroomId = doc.id;
                 });
-                // Set showroomId, userName, and password in localStorage
                 localStorage.setItem('showroomId', showroomId);
                 localStorage.setItem('userName', userName);
                 localStorage.setItem('password', password);

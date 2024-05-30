@@ -56,6 +56,8 @@ const CompletedBookings = () => {
           <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Customer Name</th>
           <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Service Type</th>
           <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Phone/Mobile</th>
+          <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Status</th> {/* Add status column */}
+
         </tr>
       </thead>
       <tbody>
@@ -66,6 +68,8 @@ const CompletedBookings = () => {
             <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.customerName}</td>
             <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.serviceType}</td>
             <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.phoneNumber}</td>
+            <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word',background:"green" }}>{booking.status}</td> {/* Display status */}
+
           </tr>
         ))}
       </tbody>
