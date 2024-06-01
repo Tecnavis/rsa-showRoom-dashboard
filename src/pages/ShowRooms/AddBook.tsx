@@ -14,7 +14,7 @@ const AddBook = () => {
         customerName: '',
         phoneNumber: '',
         vehicleSection: '',
-        serviceType: '',
+        // serviceType: '',
         vehicleNumber: '',
         // vehicleModel: '',
         comments: '',
@@ -71,8 +71,8 @@ const AddBook = () => {
     };
 
     const validateForm = () => {
-        const { customerName, phoneNumber, vehicleSection, serviceType, vehicleNumber } = formData;
-        return customerName && phoneNumber && vehicleSection && serviceType && vehicleNumber ;
+        const { customerName, phoneNumber, vehicleSection,vehicleNumber } = formData;
+        return customerName && phoneNumber && vehicleSection  && vehicleNumber ;
     };
 
     const handleSubmit = async () => {
@@ -104,7 +104,7 @@ const AddBook = () => {
                 fileNumber: '',
                 customerName: '',
                 phoneNumber: '',
-                serviceType: '',
+                // serviceType: '',
                 vehicleNumber: '',
                 // vehicleModel: '',
                 vehicleSection: '',
@@ -219,7 +219,7 @@ const AddBook = () => {
                             onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center" style={{ marginBottom: '1rem' }}>
+                    {/* <div className="flex items-center" style={{ marginBottom: '1rem' }}>
                         <label htmlFor="serviceType" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Service Type</label>
                         <select
                             id="serviceType"
@@ -250,7 +250,7 @@ const AddBook = () => {
                             <option value="Undet Lift 407">Undet Lift 407</option>
                             <option value="S Lorry Crane Bed">S Lorry Crane Bed</option>
                         </select>
-                    </div>
+                    </div> */}
                     <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>
                         <label htmlFor="vehicleNumber" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Customer Vehicle Number</label>
                         <input
