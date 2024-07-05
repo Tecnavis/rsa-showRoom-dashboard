@@ -33,11 +33,12 @@ const Header = () => {
         <header>
             <div className="shadow-sm">
                 <div className="relative bg-white flex w-full items-center justify-between px-5 py-2.5 dark:bg-black">
-                    <div className="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2">
-                        <Link to="/" className="main-logo flex items-center shrink-0">
+                <Link to="/" className="main-logo flex items-center shrink-0">
                             <img className="w-32 ltr:-ml-2 rtl:-mr-2 inline" src="/assets/images/auth/rsa-png.png" alt="logo" />
                         </Link>
-                    </div>
+                    {/* <div className="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2">
+                       
+                    </div> */}
                     <div 
                         className="toll-free-number text-gray-600 dark:text-gray-400" 
                         style={{

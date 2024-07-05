@@ -183,6 +183,8 @@ const routes = [
     {
         path: '/cashreport',
         element: <CashReport />,
+        layout: 'blank',
+
     },
     // crypto page
     {
