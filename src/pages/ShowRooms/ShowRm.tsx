@@ -30,6 +30,9 @@ const ShowRm = () => {
         <Link to="/addbook">
           <button className="add-booking-button">Add Booking</button>
         </Link>
+        <Link to="/cashreport">
+          <button className="cash-report-button">Cash Report</button>
+        </Link>
       </div>
       <div className="tab-buttons">
         {['serviceCenter', 'bodyParts', 'showRooms'].map(tab => (

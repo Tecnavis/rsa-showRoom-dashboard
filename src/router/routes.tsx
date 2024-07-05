@@ -19,6 +19,7 @@ import path from 'path';
 import DriverDetails from '../pages/Users/DriverDetails';
 import ShowRm from '../pages/ShowRooms/ShowRm';
 import AddBook from '../pages/ShowRooms/AddBook';
+import CashReport from '../pages/Report/CashReport';
 
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -178,6 +179,10 @@ const routes = [
     {
         path: '/finance',
         element: <Finance />,
+    },
+    {
+        path: '/cashreport',
+        element: <CashReport />,
     },
     // crypto page
     {
