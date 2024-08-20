@@ -10,7 +10,7 @@ const Header = () => {
         const fetchTollFreeNumber = async () => {
             try {
                 const db = getFirestore(); 
-                const showroomDocRef = doc(db, 'showroom', showroomId);
+                const showroomDocRef = doc(db, 'user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroom', showroomId);
                 const docSnap = await getDoc(showroomDocRef);
                 
                 if (docSnap.exists()) {

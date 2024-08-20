@@ -1,24 +1,27 @@
-// Import the functions you need from the SDKs you need
-import firebase from "firebase/compat/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-import { getAuth } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAYfaaoi24oJl8dJLTqigiobeRhCpDJ8Oc",
-  authDomain: "rsa-dashboard-34773.firebaseapp.com",
-  projectId: "rsa-dashboard-34773",
-  storageBucket: "rsa-dashboard-34773.appspot.com",
-  messagingSenderId: "751667160757",
-  appId: "1:751667160757:web:6eac73e5039f3249ff00fc"
+  apiKey: "AIzaSyCih6LyMfSvEJ7qDluDHSInumgdLPKtxe8",
+  authDomain: "rsapmna-de966.firebaseapp.com",
+  projectId: "rsapmna-de966",
+  storageBucket: "rsapmna-de966.appspot.com",
+  messagingSenderId: "47505700508",
+  appId: "1:47505700508:web:efaaedd713713d30b49f59",
+  measurementId: "G-S260TFML8X"
 };
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-// Get the authentication instance
+// Initialize services
 const auth = getAuth(app);
+const storage = getStorage(app);
+const messaging = getMessaging(app);
+getToken(messaging, {vapidKey:"BKPoKIWRkx6sdBatbMyNn_rw0aT7kw52-FNKZIlfYV6QD2knwxCSEUBU_CDMJSjJnYflUix08tmsJ2-ddbnrzoQ"})
 
-export { auth };
+export { auth, storage, messaging, getToken, onMessage };
 export default app;

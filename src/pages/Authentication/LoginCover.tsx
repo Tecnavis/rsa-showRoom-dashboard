@@ -14,7 +14,7 @@ const LoginCover = () => {
         e.preventDefault();
     
         try {
-            const q = query(collection(db, 'showroom'), where('userName', '==', userName), where('password', '==', password));
+            const q = query(collection(db, 'user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroom'), where('userName', '==', userName), where('password', '==', password));
             const querySnapshot = await getDocs(q);
     
             if (!querySnapshot.empty) {

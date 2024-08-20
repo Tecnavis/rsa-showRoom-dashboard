@@ -4,7 +4,7 @@ import { getFirestore, collection, getDocs, query, where } from 'firebase/firest
 const PendingBookingsShowRoom = () => {
   const [bookings, setBookings] = useState([]);
   const showroomId = localStorage.getItem('showroomId');
-
+  const uid = import.meta.env.VITE_REACT_APP_UID
   useEffect(() => {
     const fetchBookings = async () => {
       try {
@@ -15,7 +15,7 @@ const PendingBookingsShowRoom = () => {
             'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff'
           ];
           const q = query(
-            collection(db, 'bookings'),
+            collection(db, `user/${uid}/bookings`),
             where('vehicleSection', '==', 'ShowRooms'),
             where('showroomId', '==', showroomId),
             where('status', 'in', statusConditions)

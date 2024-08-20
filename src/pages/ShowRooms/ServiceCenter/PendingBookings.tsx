@@ -3,16 +3,17 @@ import { getFirestore, collection, getDocs, query, where } from 'firebase/firest
 
 const PendingBookings = () => {
   const [bookings, setBookings] = useState([]);
+  const uid = import.meta.env.VITE_REACT_APP_UID
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const db = getFirestore();
-        const showroomId = localStorage.getItem('showroomId');
+        const showroomId = localStorage.getItem('user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroomId');
         if (showroomId) {
           const statusConditions = ['booking added', 'Contacted Customer', 'Vehicle Picked', 'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff'];
           const q = query(
-            collection(db, 'bookings'),
+            collection(db, `user/${uid}/bookings`),
             where('vehicleSection', '==', 'Service Center'),
             where('showroomId', '==', showroomId),
             where('status', 'in', statusConditions) // Filter based on status conditions

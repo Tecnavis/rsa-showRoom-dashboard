@@ -18,11 +18,12 @@ const AddBook = () => {
         vehicleNumber: '',
         // vehicleModel: '',
         comments: '',
+        pickUpLocation:''
     });
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
+    const uid = import.meta.env.VITE_REACT_APP_UID
     const db = getFirestore();
     const navigate = useNavigate();
     const [bookingId, setBookingId] = useState('');
@@ -36,7 +37,7 @@ const AddBook = () => {
     useEffect(() => {
         const fetchShowroomData = async () => {
             try {
-                const showroomDocRef = doc(db, 'showroom', showroomId);
+                const showroomDocRef = doc(db, `user/${uid}/showroom`, showroomId);
                 const showroomDocSnap = await getDoc(showroomDocRef);
                 if (showroomDocSnap.exists()) {
                     const data = showroomDocSnap.data();
@@ -88,7 +89,7 @@ const AddBook = () => {
             const currentDate = new Date();
             const dateTime = currentDate.toLocaleString();
 
-            const docRef = await addDoc(collection(db, 'bookings'), {
+            const docRef = await addDoc(collection(db, `user/${uid}/bookings`), {
                 ...formData,
                 showroomId: showroomId, // Include showroomId in the document
                 dateTime: dateTime,
@@ -196,6 +197,27 @@ const AddBook = () => {
                                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                             }}
                             onChange={(e) => handleInputChange('customerName', e.target.value)}
+                        />
+                    </div>
+                    <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>
+                        <label htmlFor="customerName" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Pick up location</label>
+                        <input
+                            id="pickUpLocation"
+                            type="text"
+                            name="pickUpLocation"
+                            className="form-input flex-1"
+                            placeholder="Enter pick up location"
+                            value={formData.pickUpLocation}
+                            style={{
+                                width: '100%',
+                                padding: '0.75rem',
+                                border: '1px solid #ccc',
+                                borderRadius: '5px',
+                                fontSize: '1rem',
+                                outline: 'none',
+                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                            }}
+                            onChange={(e) => handleInputChange('pickUpLocation', e.target.value)}
                         />
                     </div>
                     <div className="mt-4 flex items-center" style={{ marginBottom: '1rem' }}>

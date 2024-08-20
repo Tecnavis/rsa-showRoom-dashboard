@@ -6,12 +6,12 @@ import { getFirestore, collection, getDocs, query, where } from 'firebase/firest
 const CompleteShowRoom = () => {
     const [bookings, setBookings] = useState([]);
     const showroomId = localStorage.getItem('showroomId');
-
+    const uid = import.meta.env.VITE_REACT_APP_UID
     useEffect(() => {
         const fetchBookings = async () => {
             try {
                 const db = getFirestore();
-                const q = query(collection(db, 'bookings'), where('vehicleSection', '==', 'ShowRooms'),
+                const q = query(collection(db, `user/${uid}/bookings`), where('vehicleSection', '==', 'ShowRooms'),
                 where('showroomId', '==', showroomId),
                 where('status', '==', 'Order Completed') // Add this where clause
 
