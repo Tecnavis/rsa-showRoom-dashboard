@@ -12,14 +12,17 @@ import CompleteShowRoom from './ShowRoom/CompleteShowRoom';
 import PendingBookingsShowRoom from './ShowRoom/PendingBookingShowRoom';
 import './ShowRm.css'; // Import the CSS file
 
-const ShowRm = () => {
-  const [activeTab, setActiveTab] = useState('serviceCenter');
-  const [selectedOption, setSelectedOption] = useState('bookings');
+type TabName = 'serviceCenter' | 'bodyParts' | 'showRooms';
+type SelectedOption = 'bookings' | 'completedBookings' | 'pendingBookings';
+
+const ShowRm: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<TabName>('serviceCenter');
+  const [selectedOption, setSelectedOption] = useState<SelectedOption>('bookings');
   const userName = localStorage.getItem('userName');
   const password = localStorage.getItem('password');
   const showroomId = localStorage.getItem('showroomId');
 
-  const handleTabChange = (tabName) => {
+  const handleTabChange = (tabName: TabName) => {
     setActiveTab(tabName);
   };
 
@@ -39,7 +42,7 @@ const ShowRm = () => {
           <button
             key={tab}
             className={`tab-button ${activeTab === tab ? 'active' : ''}`}
-            onClick={() => handleTabChange(tab)}
+            onClick={() => handleTabChange(tab as TabName)}
           >
             {tab === 'serviceCenter' && 'Service Center'}
             {tab === 'bodyParts' && 'Body Shopes'}
@@ -53,7 +56,7 @@ const ShowRm = () => {
             <div key={tab} className="tab-pane">
               <select
                 value={selectedOption}
-                onChange={(e) => setSelectedOption(e.target.value)}
+                onChange={(e) => setSelectedOption(e.target.value as SelectedOption)}
                 className="booking-select"
               >
                 <option value="bookings">Bookings</option>

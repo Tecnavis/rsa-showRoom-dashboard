@@ -1,25 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
-const PendingBookings = () => {
-  const [bookings, setBookings] = useState([]);
-  const uid = import.meta.env.VITE_REACT_APP_UID
+// Define the Booking type
+interface Booking {
+  id: string;
+  dateTime: string;
+  fileNumber: string;
+  customerName: string;
+  serviceType: string;
+  phoneNumber: string;
+  status: string; // Add status field
+}
+
+const PendingBookings: React.FC = () => {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const uid = import.meta.env.VITE_REACT_APP_UID;
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const db = getFirestore();
         const showroomId = localStorage.getItem('user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroomId');
+        
         if (showroomId) {
-          const statusConditions = ['booking added', 'Contacted Customer', 'Vehicle Picked', 'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff'];
+          const statusConditions = [
+            'booking added',
+            'Contacted Customer',
+            'Vehicle Picked',
+            'Vehicle Confirmed',
+            'To DropOff Location',
+            'Vehicle dropoff'
+          ];
+
           const q = query(
             collection(db, `user/${uid}/bookings`),
             where('vehicleSection', '==', 'Service Center'),
             where('showroomId', '==', showroomId),
             where('status', 'in', statusConditions) // Filter based on status conditions
           );
+
           const querySnapshot = await getDocs(q);
-          const bookingsData = [];
+          const bookingsData: Booking[] = [];
+          
           querySnapshot.forEach((doc) => {
             const booking = doc.data();
             bookingsData.push({
@@ -29,9 +51,10 @@ const PendingBookings = () => {
               customerName: booking.customerName,
               serviceType: booking.serviceType,
               phoneNumber: booking.phoneNumber,
-              status: booking.status, // Add status field
+              status: booking.status // Ensure 'status' is included
             });
           });
+
           setBookings(bookingsData);
         } else {
           console.error('showroomId is not available');
@@ -40,13 +63,15 @@ const PendingBookings = () => {
         console.error('Error fetching bookings:', error);
       }
     };
-    
+
     fetchBookings();
-  }, []);
+  }, [uid]);
 
   return (
-    <div style={{ padding: "30px", overflowX: "auto" }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '40px', fontSize: '24px', color: '#333', textTransform: 'uppercase' }}>Pending Bookings</h2>
+    <div style={{ padding: '30px', overflowX: 'auto' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '40px', fontSize: '24px', color: '#333', textTransform: 'uppercase' }}>
+        Pending Bookings
+      </h2>
     
       <table style={{ width: '100%', borderCollapse: 'collapse', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', tableLayout: 'fixed' }}>
         <thead style={{ backgroundColor: '#f0f0f0', borderBottom: '2px solid #ccc' }}>
@@ -54,7 +79,7 @@ const PendingBookings = () => {
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Date & Time</th>
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>File Number</th>
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Customer Name</th>
-            <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Service Type</th>
+            {/* <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Service Type</th> */}
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Phone/Mobile</th>
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Status</th> {/* Add status column */}
           </tr>
@@ -65,9 +90,11 @@ const PendingBookings = () => {
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.dateTime}</td>
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.fileNumber}</td>
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.customerName}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.serviceType}</td>
+              {/* <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.serviceType}</td> */}
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.phoneNumber}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word',background:"orange" }}>{booking.status}</td> {/* Display status */}
+              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>
+                {booking.status}
+              </td> {/* Display status */}
             </tr>
           ))}
         </tbody>

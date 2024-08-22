@@ -1,11 +1,8 @@
 import { Suspense, lazy } from 'react';
-import UserAdd from '../pages/Users/UserAdd';
 import { Navigate } from 'react-router-dom';
 // import Booking from '../pages/Booking/Booking';
 // import ApprovedBoking from '../pages/Booking/ApprovedBoking';
-import DriverAdd from '../pages/Users/DriverAdd';
-import CustomerAdd from '../pages/Users/CustomerAdd';
-import CompanyAdd from '../pages/Users/CompanyAdd';
+
 import ExpenseSummery from '../pages/Report/generalReports/ExpenseSummery';
 import SalesSummery from '../pages/Report/generalReports/SalesSummery';
 import BalanceSheet from '../pages/Report/financialReports/BalanceSheet';
@@ -16,7 +13,6 @@ import ComCusWise from '../pages/Report/receivableReports/ComCusWise';
 import ComCusOutstanding from '../pages/Report/receivableReports/ComCusOutstanding';
 import PaymentReceived from '../pages/Report/receivableReports/PaymentReceived';
 import path from 'path';
-import DriverDetails from '../pages/Users/DriverDetails';
 import ShowRm from '../pages/ShowRooms/ShowRm';
 import AddBook from '../pages/ShowRooms/AddBook';
 import CashReport from '../pages/Report/CashReport';
@@ -83,15 +79,7 @@ const Checkbox = lazy(() => import('../pages/DataTables/Checkbox'));
 const RangeSearch = lazy(() => import('../pages/DataTables/RangeSearch'));
 const Export = lazy(() => import('../pages/DataTables/Export'));
 const ColumnChooser = lazy(() => import('../pages/DataTables/ColumnChooser'));
-const Profile = lazy(() => import('../pages/Users/Profile'));
-const Staff = lazy(() => import('../pages/Users/Staff'));
 
-const Company = lazy(() => import('../pages/Users/Company'));
-
-const Driver = lazy(() => import('../pages/Users/Driver'));
-const Customer = lazy(() => import('../pages/Users/Customer'));
-
-const AccountSetting = lazy(() => import('../pages/Users/AccountSetting'));
 const KnowledgeBase = lazy(() => import('../pages/Pages/KnowledgeBase'));
 const ContactUsBoxed = lazy(() => import('../pages/Pages/ContactUsBoxed'));
 const ContactUsCover = lazy(() => import('../pages/Pages/ContactUsCover'));
@@ -438,68 +426,7 @@ const routes = [
         path: '/datatables/column-chooser',
         element: <ColumnChooser />,
     },
-    // Users page
-    {
-        path: '/users/profile',
-        element: <Profile />,
-    },
-    {
-        path: '/users/staff',
-        element: <Staff />,
-    },
-    {
-        path: '/users/company',
-        element: <Company />,
-    },
-    {
-        path: '/users/driver',
-        element: <Driver />,
-    },
-    {
-        path: '/users/customer',
-        element: <Customer />,
-    },
-    {
-        path: '/users/user-add/',
-        element: <UserAdd />,
-    },
-    {
-        path: '/users/user-add/:id',
-        element: <UserAdd />,
-    },
-    {
-        path: '/users/driver-add',
-        element: <DriverAdd />,
-    },
-    {
-        path: '/users/driver-add/:id',
-        element: <DriverAdd />,
-    },
-    {
-        path: '/users/customer-add',
-        element: <CustomerAdd />,
-    },
-    {
-        path: '/users/customer-add/:id',
-        element: <CustomerAdd />,
-    },
-    {
-        path: '/users/company-add',
-        element: <CompanyAdd />,
-    },
-    {
-        path: '/users/company-add/:id',
-        element: <CompanyAdd />,
-    },
    
-    {
-        path: '/users/user-account-settings',
-        element: <AccountSetting />,
-    },
-    {
-        path: "/users/driver/driverdetails/:id",
-        element: <DriverDetails />,
-    },
     //Booking pages
 
    

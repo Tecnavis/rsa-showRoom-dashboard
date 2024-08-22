@@ -1,53 +1,60 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import IconLockDots from '../../components/Icon/IconLockDots';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import IconUser from '../../components/Icon/IconUser';
 
-const LoginCover = () => {
-    const [userName, setUserName] = useState("");
-    const [password, setPassword] = useState("");
+const LoginCover: React.FC = () => {
+    const [userName, setUserName] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
     const db = getFirestore();
 
-    const signIn = async (e) => {
+    const signIn = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-    
+
         try {
-            const q = query(collection(db, 'user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroom'), where('userName', '==', userName), where('password', '==', password));
+            const q = query(
+                collection(db, 'user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroom'),
+                where('userName', '==', userName),
+                where('password', '==', password)
+            );
             const querySnapshot = await getDocs(q);
-    
+
             if (!querySnapshot.empty) {
-                let showroomId = null;
+                let showroomId: string | null = null;
                 querySnapshot.forEach(doc => {
                     showroomId = doc.id;
                 });
-                localStorage.setItem('showroomId', showroomId);
-                localStorage.setItem('userName', userName);
-                localStorage.setItem('password', password);
-    
-                console.log('showroomId set in localStorage:', localStorage.getItem('showroomId'));
-                console.log('UserName set in localStorage:', localStorage.getItem('userName'));
-                console.log('Password set in localStorage:', localStorage.getItem('password'));
-    
-                navigate(`/showrm`);
+                
+                if (showroomId) {
+                    localStorage.setItem('showroomId', showroomId);
+                    localStorage.setItem('userName', userName);
+                    localStorage.setItem('password', password);
+
+                    console.log('showroomId set in localStorage:', localStorage.getItem('showroomId'));
+                    console.log('UserName set in localStorage:', localStorage.getItem('userName'));
+                    console.log('Password set in localStorage:', localStorage.getItem('password'));
+
+                    navigate(`/showrm`);
+                } else {
+                    console.error("User not found or incorrect password");
+                    alert("User not found or incorrect password");
+                }
             } else {
                 console.error("User not found or incorrect password");
-                // Handle user not found or incorrect password error (e.g., display error message to user)
                 alert("User not found or incorrect password");
             }
         } catch (error) {
             console.error("Error signing in:", error);
-            // Handle error appropriately (e.g., display error message to user)
             alert("Error signing in. Please try again.");
         }
     };
-    
-    const handleSubmit = (event) => {
-        event.preventDefault();
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         signIn(event); // Pass the event object to the signIn function
     };
-    
+
     return (
         <div>
             <div className="absolute inset-0">

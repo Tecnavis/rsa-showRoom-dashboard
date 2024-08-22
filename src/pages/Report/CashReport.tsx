@@ -1,34 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
 
-const CashReport = () => {
+// Define the Booking type
+interface Booking {
+  id: string;
+  dateTime: string;
+  vehicleSection: string;
+  vehicleModel: string;
+  insuranceAmount: number;
+  paidToRSA: boolean;
+}
+
+const CashReport: React.FC = () => {
   const showroomId = localStorage.getItem('showroomId');
-  const [bookings, setBookings] = useState([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const db = getFirestore();
         const statusConditions = ['booking added', 'Contacted Customer', 'Vehicle Picked', 'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff'];
-        
+
         const q = query(
           collection(db, 'bookings'),
           where('showroomId', '==', showroomId),
           where('status', 'in', statusConditions)
         );
-        
+
         const querySnapshot = await getDocs(q);
-        const bookingsData = [];
-        
+        const bookingsData: Booking[] = [];
+
         querySnapshot.forEach((doc) => {
-          const booking = doc.data();
+          const booking = doc.data() as Omit<Booking, 'id'>; // Cast to Omit type for safe data extraction
           bookingsData.push({
             id: doc.id,
-            dateTime: booking.dateTime,
-            vehicleSection: booking.vehicleSection,
-            vehicleModel: booking.vehicleModel,
-            insuranceAmount: booking.insuranceAmount,
-            paidToRSA: booking.paidToRSA || false,
+            ...booking,
           });
         });
 
@@ -45,7 +51,7 @@ const CashReport = () => {
     }
   }, [showroomId]);
 
-  const handlePayment = async (bookingId) => {
+  const handlePayment = async (bookingId: string) => {
     try {
       const db = getFirestore();
       const bookingRef = doc(db, 'bookings', bookingId);

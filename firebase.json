@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "rsashowroom",
     "public": "dist",
     "ignore": [
       "firebase.json",

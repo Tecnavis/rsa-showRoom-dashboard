@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
-const PendingBookingsShowRoom = () => {
-  const [bookings, setBookings] = useState([]);
-  const showroomId = localStorage.getItem('showroomId');
-  const uid = import.meta.env.VITE_REACT_APP_UID
+// Define the Booking type
+interface Booking {
+  id: string;
+  dateTime: string;
+  fileNumber: string;
+  customerName: string;
+  serviceType: string;
+  phoneNumber: string;
+  status: string; // Add status field
+}
+
+const PendingBookingsShowRoom: React.FC = () => {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const showroomId = localStorage.getItem('showroomId') || '';
+  const uid = import.meta.env.VITE_REACT_APP_UID;
+
   useEffect(() => {
     const fetchBookings = async () => {
       try {
@@ -21,7 +33,7 @@ const PendingBookingsShowRoom = () => {
             where('status', 'in', statusConditions)
           );
           const querySnapshot = await getDocs(q);
-          const bookingsData = [];
+          const bookingsData: Booking[] = [];
           querySnapshot.forEach((doc) => {
             const booking = doc.data();
             bookingsData.push({
@@ -44,7 +56,7 @@ const PendingBookingsShowRoom = () => {
     };
 
     fetchBookings();
-  }, [showroomId]);
+  }, [showroomId, uid]);
 
   return (
     <div style={{ padding: '30px', overflowX: 'auto' }}>
@@ -58,7 +70,7 @@ const PendingBookingsShowRoom = () => {
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Date & Time</th>
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>File Number</th>
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Customer Name</th>
-            <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Service Type</th>
+            {/* <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Service Type</th> */}
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Phone/Mobile</th>
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Status</th> {/* Add status column */}
           </tr>
@@ -69,7 +81,7 @@ const PendingBookingsShowRoom = () => {
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.dateTime}</td>
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.fileNumber}</td>
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.customerName}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.serviceType}</td>
+              {/* <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.serviceType}</td> */}
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.phoneNumber}</td>
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>
                 {booking.status}
