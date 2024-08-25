@@ -5,13 +5,14 @@ import { getFirestore, collection, doc, getDoc, DocumentData } from 'firebase/fi
 const Header: React.FC = () => {
     const [tollFreeNumber, setTollFreeNumber] = useState<string>(''); 
     const showroomId = localStorage.getItem('showroomId');
+    const uid = import.meta.env.VITE_REACT_APP_UID;
 
     useEffect(() => {
         const fetchTollFreeNumber = async () => {
             try {
                 const db = getFirestore(); 
                 if (showroomId) {
-                    const showroomDocRef = doc(db, 'user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroom', showroomId);
+                    const showroomDocRef = doc(db, `user/${uid}/showroom`, showroomId);
                     const docSnap = await getDoc(showroomDocRef);
 
                     if (docSnap.exists()) {

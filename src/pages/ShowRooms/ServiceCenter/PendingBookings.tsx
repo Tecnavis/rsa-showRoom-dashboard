@@ -20,7 +20,7 @@ const PendingBookings: React.FC = () => {
     const fetchBookings = async () => {
       try {
         const db = getFirestore();
-        const showroomId = localStorage.getItem('user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroomId');
+        const showroomId = localStorage.getItem('user/${uid}/showroomId');
         
         if (showroomId) {
           const statusConditions = [

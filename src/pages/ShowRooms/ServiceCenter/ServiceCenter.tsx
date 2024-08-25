@@ -9,6 +9,8 @@ interface Booking {
   customerName: string;
   serviceType: string;
   phoneNumber: string;
+  status: string;
+
 }
 
 const ServiceCenter: React.FC = () => {
@@ -22,11 +24,16 @@ const ServiceCenter: React.FC = () => {
         const db = getFirestore();
         // Ensure showroomId is available
         if (showroomId) {
-          // Query to fetch bookings with the required conditions
+          const statusConditions = [
+            'booking added', 'Contacted Customer', 'Vehicle Picked', 
+            'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff'
+          ];          // Query to fetch bookings with the required conditions
           const q = query(
             collection(db, `user/${uid}/bookings`),
             where('vehicleSection', '==', 'Service Center'),
-            where('showroomId', '==', showroomId)
+            where('showroomId', '==', showroomId),
+            where('status', 'in', statusConditions)
+
           );
           const querySnapshot = await getDocs(q);
           const bookingsData: Booking[] = [];
@@ -41,6 +48,8 @@ const ServiceCenter: React.FC = () => {
               customerName: booking.customerName,
               serviceType: booking.serviceType,
               phoneNumber: booking.phoneNumber,
+              status: booking.status,
+
             });
           });
           setBookings(bookingsData);
@@ -67,6 +76,8 @@ const ServiceCenter: React.FC = () => {
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Customer Name</th>
             {/* <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Service Type</th> */}
             <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Phone/Mobile</th>
+            <th style={{ padding: '10px', textAlign: 'left', fontWeight: 'bold' }}>Status</th> {/* Add status column */}
+
           </tr>
         </thead>
         <tbody>
@@ -77,6 +88,9 @@ const ServiceCenter: React.FC = () => {
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.customerName}</td>
               {/* <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.serviceType}</td> */}
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.phoneNumber}</td>
+              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>
+                {booking.status}
+              </td>
             </tr>
           ))}
         </tbody>

@@ -12,10 +12,7 @@ interface FormData {
     vehicleSection: string;
     vehicleNumber: string;
     comments: string;
-    pickupLocation: {
-        lat: number;
-        lng: number;
-    };
+   
 }
 
 const AddBook: React.FC = () => {
@@ -29,10 +26,7 @@ const AddBook: React.FC = () => {
         vehicleSection: '',
         vehicleNumber: '',
         comments: '',
-        pickupLocation: {
-            lat: 0,
-            lng: 0
-        }
+      
     });
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -84,17 +78,11 @@ const AddBook: React.FC = () => {
         }));
     };
 
-    const handleLocationChange = (lat: number, lng: number) => {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            pickupLocation: { lat, lng }
-        }));
-    };
-
+  
     const validateForm = (): boolean => {
-        const { customerName, phoneNumber, vehicleSection, vehicleNumber, pickupLocation } = formData;
+        const { customerName, phoneNumber, vehicleSection, vehicleNumber } = formData;
         // Check if all required fields are filled and pickupLocation has valid coordinates
-        return !!(customerName && phoneNumber && vehicleSection && vehicleNumber && pickupLocation.lat && pickupLocation.lng);
+        return !!(customerName && phoneNumber && vehicleSection && vehicleNumber );
     };
 
     const formatDate = (date: Date): string => {
@@ -137,10 +125,7 @@ const AddBook: React.FC = () => {
                 vehicleNumber: '',
                 vehicleSection: '',
                 comments: '',
-                pickupLocation: {
-                    lat: 0,
-                    lng: 0
-                }
+              
             });
             navigate('/showrm');
         } catch (error) {
@@ -288,48 +273,7 @@ const AddBook: React.FC = () => {
                             onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('vehicleNumber', e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center" style={{ marginBottom: '1rem' }}>
-                        <label htmlFor="pickupLocationLat" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Pickup Location Latitude</label>
-                        <input
-                            id="pickupLocationLat"
-                            type="number"
-                            name="pickupLocationLat"
-                            className="form-input flex-1"
-                            placeholder="Enter Pickup Location Latitude"
-                            value={formData.pickupLocation.lat}
-                            style={{
-                                width: '100%',
-                                padding: '0.75rem',
-                                border: '1px solid #ccc',
-                                borderRadius: '5px',
-                                fontSize: '1rem',
-                                outline: 'none',
-                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                            }}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => handleLocationChange(parseFloat(e.target.value), formData.pickupLocation.lng)}
-                        />
-                    </div>
-                    <div className="flex items-center" style={{ marginBottom: '1rem' }}>
-                        <label htmlFor="pickupLocationLng" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Pickup Location Longitude</label>
-                        <input
-                            id="pickupLocationLng"
-                            type="number"
-                            name="pickupLocationLng"
-                            className="form-input flex-1"
-                            placeholder="Enter Pickup Location Longitude"
-                            value={formData.pickupLocation.lng}
-                            style={{
-                                width: '100%',
-                                padding: '0.75rem',
-                                border: '1px solid #ccc',
-                                borderRadius: '5px',
-                                fontSize: '1rem',
-                                outline: 'none',
-                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                            }}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => handleLocationChange(formData.pickupLocation.lat, parseFloat(e.target.value))}
-                        />
-                    </div>
+                    
                     <div className="flex items-center" style={{ marginBottom: '1rem' }}>
                         <label htmlFor="comments" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Comments</label>
                         <textarea

@@ -9,13 +9,14 @@ const LoginCover: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
     const db = getFirestore();
+    const uid = import.meta.env.VITE_REACT_APP_UID;
 
     const signIn = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
             const q = query(
-                collection(db, 'user/V9e4v0UtSzUrPVgxtJzOTkq71do2/showroom'),
+                collection(db, `user/${uid}/showroom`),
                 where('userName', '==', userName),
                 where('password', '==', password)
             );
