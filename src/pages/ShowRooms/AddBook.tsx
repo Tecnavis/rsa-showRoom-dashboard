@@ -18,6 +18,7 @@ interface FormData {
 const AddBook: React.FC = () => {
     const showroomId = localStorage.getItem('showroomId');
     console.log("first", showroomId);
+    const [currentDateTime, setCurrentDateTime] = useState('');
 
     const [formData, setFormData] = useState<FormData>({
         fileNumber: '',
@@ -52,8 +53,9 @@ const AddBook: React.FC = () => {
                     console.log('Showroom Data:', data);
                     setShowroomData(data);
 
-                    if (data.ShowRoomId) {
-                        const updatedFileNumber = `${data.ShowRoomId}${bookingId}`;
+                    if (data.showroomId) {
+                        const updatedFileNumber = `${data.showroomId}${bookingId}`;
+                        console.log("updatedFileNumber",updatedFileNumber)
                         setFormData(prevFormData => ({
                             ...prevFormData,
                             fileNumber: updatedFileNumber,
@@ -78,18 +80,35 @@ const AddBook: React.FC = () => {
         }));
     };
 
-  
+    useEffect(() => {
+        const formatDate = (date: Date) => {
+            const options: Intl.DateTimeFormatOptions = {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true,
+            };
+            return new Intl.DateTimeFormat('en-GB', options).format(date);
+        };
+
+        const updateDateTime = () => {
+            const now = new Date();
+            const formattedDateTime = formatDate(now);
+            setCurrentDateTime(formattedDateTime);
+        };
+
+        updateDateTime();
+        const intervalId = setInterval(updateDateTime, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
     const validateForm = (): boolean => {
         const { customerName, phoneNumber, vehicleSection, vehicleNumber } = formData;
-        // Check if all required fields are filled and pickupLocation has valid coordinates
-        return !!(customerName && phoneNumber && vehicleSection && vehicleNumber );
-    };
-
-    const formatDate = (date: Date): string => {
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
+        return !!(customerName && phoneNumber && vehicleSection && vehicleNumber);
     };
 
     const handleSubmit = async () => {
@@ -102,15 +121,11 @@ const AddBook: React.FC = () => {
         setError(null);
 
         try {
-            const currentDate = new Date();
-            const dateTime = currentDate.toLocaleString();
-            const formattedDate = formatDate(currentDate);
-
             const docRef = await addDoc(collection(db, `user/${uid}/bookings`), {
                 ...formData,
-                showroomId: showroomId, // Include showroomId in the document
-                dateTime: dateTime,
-                createdAt: formattedDate, // Store the formatted date
+                showroomId: showroomId,
+                dateTime: currentDateTime,
+                createdAt: currentDateTime,
                 bookingStatus: 'ShowRoom Booking',
                 status: 'booking added',
                 bookingId: bookingId,
@@ -125,7 +140,6 @@ const AddBook: React.FC = () => {
                 vehicleNumber: '',
                 vehicleSection: '',
                 comments: '',
-              
             });
             navigate('/showrm');
         } catch (error) {
@@ -208,6 +222,8 @@ const AddBook: React.FC = () => {
                             <option value="">Select Service Section</option>
                             <option value="Service Center">Service Center</option>
                             <option value="Body Shopes">Body Shopes</option>
+                            <option value="ShowRooms">ShowRooms</option>
+
                         </select>
                     </div>
                     <div className="flex items-center" style={{ marginBottom: '1rem' }}>
@@ -321,3 +337,4 @@ const AddBook: React.FC = () => {
 };
 
 export default AddBook;
+// ===============================================

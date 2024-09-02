@@ -4,7 +4,38 @@
   font-family: Arial, sans-serif;
   color: #333;
   padding: 20px;
+  background: linear-gradient(135deg, #f0f0f0, #e0e0e0); /* Dynamic background gradient */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease; /* Smooth background transition */
 }
+/* ShowRm.css */
+
+/* QR Code Button Styles */
+.qr-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #6f42c1; /* Purple color for QR Code button */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  font-weight: bold;
+}
+
+.qr-button:hover {
+  background-color: #5a2a8a; /* Darker purple on hover */
+  transform: scale(1.05); /* Slight scaling on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
+}
+
+.qr-button:active {
+  background-color: #4a1a6b; /* Even darker purple when clicked */
+  transform: scale(1); /* Remove scaling effect when clicked */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow when clicked */
+}
+
 
 .add-booking {
   display: flex;
@@ -21,10 +52,12 @@
   border-radius: 7px;
   cursor: pointer;
   font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition and scaling effect */
 }
 
 .add-booking-button:hover {
   background-color: #218838; /* Darker green on hover */
+  transform: scale(1.05); /* Slight scaling on hover */
 }
 
 .cash-report-button {
@@ -35,12 +68,13 @@
   color: #fff;
   border: none;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition and scaling effect */
   font-weight: bold;
 }
 
 .cash-report-button:hover {
   background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight scaling on hover */
 }
 
 .tab-buttons {
@@ -58,19 +92,27 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
 .tab-button.active {
   background-color: #007bff;
   color: #fff;
   font-weight: bold;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevated shadow for active tab */
+}
+
+.tab-button:hover {
+  background-color: #e0e0e0; /* Light background on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
 }
 
 .tab-content {
   text-align: center;
   width: auto;
   overflow-x: auto;
+  transition: background-color 0.3s ease; /* Smooth background transition */
 }
 
 .tab-pane {
@@ -80,6 +122,12 @@
   border-radius: 10px;
   padding: 20px;
   background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transformation */
+}
+
+.tab-pane:hover {
+  transform: scale(1.02); /* Slight scaling on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
 }
 
 .booking-select {
@@ -93,6 +141,12 @@
   font-size: 1rem;
   width: 200px;
   text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+}
+
+.booking-select:hover {
+  background-color: #e0e0e0; /* Light background on hover */
+  border-color: #007bff; /* Change border color on hover */
 }
 
 @media (max-width: 768px) {

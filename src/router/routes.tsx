@@ -16,6 +16,7 @@ import path from 'path';
 import ShowRm from '../pages/ShowRooms/ShowRm';
 import AddBook from '../pages/ShowRooms/AddBook';
 import CashReport from '../pages/Report/CashReport';
+import QRLogin from '../pages/Authentication/QRLogin';
 
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -135,6 +136,12 @@ const routes = [
     {
         path: '/',
         element: <LoginCover />,
+        layout: 'blank',
+
+    },
+    {
+        path: '/showrm/qr',
+        element: <QRLogin/>,
         layout: 'blank',
 
     },

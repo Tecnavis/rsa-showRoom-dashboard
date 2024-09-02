@@ -16,11 +16,11 @@ const CompletedBookings: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const showroomId = localStorage.getItem('showroomId');
   const uid = import.meta.env.VITE_REACT_APP_UID;
+  const db = getFirestore();
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const db = getFirestore();
         // Ensure showroomId is available
         if (showroomId) {
           // Query to fetch bookings with the required conditions

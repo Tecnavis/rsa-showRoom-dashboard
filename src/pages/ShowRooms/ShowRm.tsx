@@ -29,7 +29,11 @@ const ShowRm: React.FC = () => {
   return (
     <div className="showrm-container">
       <Header />
+      
       <div className="add-booking">
+      <Link to="/showrm/qr">
+          <button className="qr-button">QRCode Login </button>
+        </Link>
         <Link to="/addbook">
           <button className="add-booking-button">Add Booking</button>
         </Link>
