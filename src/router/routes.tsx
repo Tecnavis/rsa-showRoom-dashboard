@@ -17,6 +17,7 @@ import ShowRm from '../pages/ShowRooms/ShowRm';
 import AddBook from '../pages/ShowRooms/AddBook';
 import CashReport from '../pages/Report/CashReport';
 import QRLogin from '../pages/Authentication/QRLogin';
+// import ShowroomStaff from '../pages/ShowRooms/showroom staff/ShowroomStaff'
 
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -159,6 +160,12 @@ const routes = [
     layout: 'blank',
 
 },
+// {
+//     path: '/showroomstaff ',
+//     element: <ShowroomStaff/>,
+//     layout: 'blank',
+
+// },
 {
     path: '/addbook',
     element: <AddBook/>,

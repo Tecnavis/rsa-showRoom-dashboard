@@ -130,6 +130,7 @@ const AddBook: React.FC = () => {
                 status: 'booking added',
                 bookingId: bookingId,
                 company: 'rsa',
+                createdBy:'showroom'
             });
             console.log('Document added successfully with ID:', docRef.id);
 
