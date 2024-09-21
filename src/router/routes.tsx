@@ -17,7 +17,7 @@ import ShowRm from '../pages/ShowRooms/ShowRm';
 import AddBook from '../pages/ShowRooms/AddBook';
 import CashReport from '../pages/Report/CashReport';
 import QRLogin from '../pages/Authentication/QRLogin';
-// import ShowroomStaff from '../pages/ShowRooms/showroom staff/ShowroomStaff'
+import InvoiceReport from '../pages/Report/InvoiceReport';
 
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -228,9 +228,14 @@ const routes = [
     },
     // preview page
     {
-        path: '/apps/invoice/preview',
+        path: '/apps/invoice/preview/:id',
         element: <Preview />,
     },
+    {
+        path: '/invoiceReport/',
+        element: <InvoiceReport />,
+    },
+    
     {
         path: '/apps/invoice/add',
         element: <Add />,

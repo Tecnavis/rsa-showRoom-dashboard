@@ -1,5 +1,5 @@
 import React, { useEffect, useState, ChangeEvent } from 'react';
-import { addDoc, collection, serverTimestamp, getDoc, doc } from 'firebase/firestore';
+import { addDoc, collection,  getDoc, doc, Timestamp } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore'; // Import getFirestore
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
@@ -18,7 +18,6 @@ interface FormData {
 const AddBook: React.FC = () => {
     const showroomId = localStorage.getItem('showroomId');
     console.log("first", showroomId);
-    const [currentDateTime, setCurrentDateTime] = useState('');
 
     const [formData, setFormData] = useState<FormData>({
         fileNumber: '',
@@ -80,31 +79,14 @@ const AddBook: React.FC = () => {
         }));
     };
 
-    useEffect(() => {
-        const formatDate = (date: Date) => {
-            const options: Intl.DateTimeFormatOptions = {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true,
-            };
-            return new Intl.DateTimeFormat('en-GB', options).format(date);
-        };
+    const formatDate = (date: Date): string => {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
 
-        const updateDateTime = () => {
-            const now = new Date();
-            const formattedDateTime = formatDate(now);
-            setCurrentDateTime(formattedDateTime);
-        };
-
-        updateDateTime();
-        const intervalId = setInterval(updateDateTime, 1000);
-
-        return () => clearInterval(intervalId);
-    }, []);
+     
 
     const validateForm = (): boolean => {
         const { customerName, phoneNumber, vehicleSection, vehicleNumber } = formData;
@@ -116,24 +98,38 @@ const AddBook: React.FC = () => {
             setError('Please fill in all required fields.');
             return;
         }
-
+    
         setLoading(true);
         setError(null);
-
+    
         try {
+            const currentDate = new Date();
+            const dateTime = currentDate.toLocaleString();
+    
+            // Create the dropoffLocation object
+            const dropoffLocation = {
+                lat: showroomData?.locationLatLng?.lat || 0,  // Use fallback if lat is undefined
+                lng: showroomData?.locationLatLng?.lng || 0,  // Use fallback if lng is undefined
+                name: showroomData?.Location || 'Default Showroom Name', // Adjusted to use showroom name
+            };
+    
             const docRef = await addDoc(collection(db, `user/${uid}/bookings`), {
                 ...formData,
                 showroomId: showroomId,
-                dateTime: currentDateTime,
-                createdAt: currentDateTime,
+                dateTime: dateTime,
+                createdAt: Timestamp.now(),
                 bookingStatus: 'ShowRoom Booking',
                 status: 'booking added',
                 bookingId: bookingId,
                 company: 'rsa',
-                createdBy:'showroom'
+                createdBy:'showroom',
+                dropoffLocation: dropoffLocation,
+                showroomLocation: dropoffLocation.name,
             });
+    
             console.log('Document added successfully with ID:', docRef.id);
-
+    
+            // Reset form data
             setFormData({
                 fileNumber: '',
                 customerName: '',
@@ -142,6 +138,7 @@ const AddBook: React.FC = () => {
                 vehicleSection: '',
                 comments: '',
             });
+    
             navigate('/showrm');
         } catch (error) {
             console.error('Error adding document: ', error);
@@ -150,6 +147,7 @@ const AddBook: React.FC = () => {
             setLoading(false);
         }
     };
+    
     const handleBack = () => {
         navigate(-1); // Go back to the previous page
     };
@@ -338,4 +336,4 @@ const AddBook: React.FC = () => {
 };
 
 export default AddBook;
-// ===============================================
+// ------------------------------------
