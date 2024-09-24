@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { IoPersonOutline } from "react-icons/io5";
 
 // Define the Booking and Staff types
 interface Booking {
@@ -10,6 +11,7 @@ interface Booking {
   serviceType: string;
   phoneNumber: string;
   status: string;
+  createdBy?: string; 
 }
 
 interface Staff {
@@ -25,7 +27,7 @@ const ServiceCenter: React.FC = () => {
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
   const showroomId = localStorage.getItem('showroomId');
   const uid = import.meta.env.VITE_REACT_APP_UID;
-  console.log(staff,'this is the staff')
+  console.log(bookings,'this is the staff')
 
   // Fetch bookings and staff data from Firestore
   useEffect(() => {
@@ -75,6 +77,7 @@ const ServiceCenter: React.FC = () => {
                 serviceType: booking.serviceType,
                 phoneNumber: booking.phoneNumber,
                 status: booking.status,
+                createdBy: booking.createdBy
               });
             });
             setBookings(bookingsData);
@@ -163,7 +166,14 @@ const ServiceCenter: React.FC = () => {
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.fileNumber}</td>
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.customerName}</td>
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.phoneNumber}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>{booking.status}</td>
+              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-around'}}>
+              <p> {booking.status}</p>  {booking.createdBy === 'showroomStaff' && (
+        <IoPersonOutline /> 
+        )}
+                </div>
+              
+              </td>
             </tr>
           ))}
         </tbody>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import { IoPersonOutline } from 'react-icons/io5';
 
 // Define the Booking type
 interface Booking {
@@ -10,6 +11,7 @@ interface Booking {
   serviceType: string;
   phoneNumber: string;
   status: string; // Add status field
+  createdBy?: string; 
 }
 
 const PendingBookingsShowRoom: React.FC = () => {
@@ -44,6 +46,7 @@ const PendingBookingsShowRoom: React.FC = () => {
               serviceType: booking.serviceType,
               phoneNumber: booking.phoneNumber,
               status: booking.status, // Add status field
+              createdBy:booking.createdBy
             });
           });
           setBookings(bookingsData);
@@ -84,7 +87,12 @@ const PendingBookingsShowRoom: React.FC = () => {
               {/* <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.serviceType}</td> */}
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.phoneNumber}</td>
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>
-                {booking.status}
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-around'}}>
+              <p> {booking.status}</p>  {booking.createdBy === 'showroomStaff' && (
+        <IoPersonOutline /> 
+        )}
+                </div>
+              
               </td> {/* Display status */}
             </tr>
           ))}
