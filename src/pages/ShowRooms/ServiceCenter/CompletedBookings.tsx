@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import { IoPersonOutline } from 'react-icons/io5';
 
 // Define the Booking type
 interface Booking {
@@ -10,6 +11,7 @@ interface Booking {
   serviceType: string;
   phoneNumber: string;
   status?: string; // Optional if not included in the fetched data
+  createdBy?: string; 
 }
 
 const CompletedBookings: React.FC = () => {
@@ -41,7 +43,8 @@ const CompletedBookings: React.FC = () => {
               customerName: booking.customerName,
               serviceType: booking.serviceType,
               phoneNumber: booking.phoneNumber,
-              status: booking.status // Ensure 'status' is included if needed
+              status: booking.status, // Ensure 'status' is included if needed
+              createdBy:booking.createdBy
             });
           });
           setBookings(bookingsData);
@@ -81,8 +84,13 @@ const CompletedBookings: React.FC = () => {
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.customerName}</td>
               {/* <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.serviceType}</td> */}
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word' }}>{booking.phoneNumber}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'green' }}>
-                {booking.status || 'N/A'} {/* Display status */}
+              <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-around'}}>
+              <p> {booking.status}</p>  {booking.createdBy === 'showroomStaff' && (
+        <IoPersonOutline /> 
+        )}
+                </div>
+              
               </td>
             </tr>
           ))}

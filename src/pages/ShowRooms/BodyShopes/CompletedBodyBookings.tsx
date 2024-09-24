@@ -9,6 +9,7 @@ interface Booking {
   customerName: string;
   serviceType: string;
   phoneNumber: string;
+  createdBy?: string; 
 }
 
 const CompletedBodyBookings: React.FC = () => {
@@ -37,6 +38,7 @@ const CompletedBodyBookings: React.FC = () => {
             customerName: booking.customerName,
             serviceType: booking.serviceType,
             phoneNumber: booking.phoneNumber,
+            createdBy:booking.createdBy
           });
         });
         setBookings(bookingsData);
