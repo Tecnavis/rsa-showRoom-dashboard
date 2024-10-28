@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
-import { IoPersonOutline } from 'react-icons/io5';
+// import { IoPersonOutline } from "react-icons/io5";
+import IconUser from '../../../components/Icon/IconUser';
+// import { IoPersonOutline } from "react-icons/io5";
 
 // Define the Booking type
 interface Booking {
@@ -15,6 +17,7 @@ interface Booking {
 }
 
 const BookingsShowRoom: React.FC = () => {
+  // const IoPersonOutline = require('react-icons/io5')
   const [bookings, setBookings] = useState<Booking[]>([]);
   const showroomId = localStorage.getItem('showroomId') || '';
   const uid = import.meta.env.VITE_REACT_APP_UID;
@@ -90,7 +93,7 @@ const BookingsShowRoom: React.FC = () => {
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'space-around'}}>
               <p> {booking.status}</p>  {booking.createdBy === 'showroomStaff' && (
-        <IoPersonOutline /> 
+        <IconUser /> 
         )}
                 </div>
               

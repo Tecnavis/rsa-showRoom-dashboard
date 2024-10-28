@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { IoPersonOutline } from "react-icons/io5";
+// import { IoPersonOutline } from "react-icons/io5";
+import IconUser from '../../../components/Icon/IconUser';
 
 // Define the Booking and Staff types
 interface Booking {
@@ -22,6 +23,7 @@ interface Staff {
 }
 
 const ServiceCenter: React.FC = () => {
+  // const IoPersonOutline = require('react-icons/io5')
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [staff, setStaff] = useState<Staff[]>([]); // State to hold staff data
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
@@ -68,10 +70,10 @@ const ServiceCenter: React.FC = () => {
             const bookingsData: Booking[] = [];
             bookingSnapshot.forEach((doc) => {
               const booking = doc.data();
-              const formattedDateTime = new Date(booking.dateTime).toLocaleDateString('en-GB');
+              // const formattedDateTime = new Date(booking.dateTime).toLocaleDateString('en-GB');
               bookingsData.push({
                 id: doc.id,
-                dateTime: formattedDateTime,
+                dateTime: booking.dateTime,
                 fileNumber: booking.fileNumber,
                 customerName: booking.customerName,
                 serviceType: booking.serviceType,
@@ -169,7 +171,7 @@ const ServiceCenter: React.FC = () => {
               <td style={{ padding: '10px', border: '1px solid #ccc', wordWrap: 'break-word', background: 'orange' }}>
                 <div style={{display:'flex', alignItems:'center', justifyContent:'space-around'}}>
               <p> {booking.status}</p>  {booking.createdBy === 'showroomStaff' && (
-        <IoPersonOutline /> 
+        <IconUser /> 
         )}
                 </div>
               

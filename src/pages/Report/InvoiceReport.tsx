@@ -55,7 +55,7 @@ const InvoiceReport: React.FC = () => {
   };
 
   // Calculate total amount
-  const totalAmount = bookings.reduce((sum, booking) => sum + parseFloat(booking.amount), 0);
+  const totalAmount = bookings.reduce((sum:any, booking:any) => sum + parseFloat(booking.amount), 0);
   
   // Define columns
   const columns = [
@@ -147,7 +147,7 @@ const InvoiceReport: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {bookings.map((booking, index) => (
+              {bookings.map((booking:any, index:any) => (
                 <tr key={booking.id}>
                        {/* id: booking.id,
         dateTime: booking.dateTime,
