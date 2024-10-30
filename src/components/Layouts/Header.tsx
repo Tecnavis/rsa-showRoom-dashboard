@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getFirestore, collection, doc, getDoc, DocumentData } from 'firebase/firestore';
+import { IoIosLogOut } from "react-icons/io";
+import { IoLogOut } from 'react-icons/io5';
+
 
 const Header: React.FC = () => {
     const [tollFreeNumber, setTollFreeNumber] = useState<string>(''); 
     const showroomId = localStorage.getItem('showroomId');
     const uid = import.meta.env.VITE_REACT_APP_UID;
+    const navigate = useNavigate()
+    const logOut =async()=>{
+      navigate('/')
+    }
 
     useEffect(() => {
         const fetchTollFreeNumber = async () => {
@@ -48,6 +55,7 @@ const Header: React.FC = () => {
                     >
                         Help-Line Number: {tollFreeNumber}
                     </div>
+<button onClick={logOut}><IoLogOut size={36} color='red'/></button>
                 </div>
             </div>
         </header>

@@ -121,7 +121,7 @@ const AddBook: React.FC = () => {
                 bookingStatus: 'ShowRoom Booking',
                 status: 'booking added',
                 bookingId: bookingId,
-                company: 'rsa',
+                // company: 'rsa',
                 createdBy:'showroom',
                 dropoffLocation: dropoffLocation,
                 showroomLocation: dropoffLocation.name,
