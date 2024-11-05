@@ -88,6 +88,7 @@
         "@types/react-copy-to-clipboard": "^5.0.4",
         "@types/react-dom": "^18.0.10",
         "@types/react-flatpickr": "^3.8.8",
+        "@types/react-icons": "^3.0.0",
         "@types/react-input-mask": "^3.0.1",
         "@types/sortablejs": "^1.15.0",
         "@types/styled-components": "^5.1.26",

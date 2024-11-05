@@ -80,11 +80,17 @@ const AddBook: React.FC = () => {
     };
 
     const formatDate = (date: Date): string => {
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            const year = date.getFullYear();
+            const hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const seconds = date.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const formattedHours = (hours % 12 || 12).toString().padStart(2, '0');
+    
+            return `${day}/${month}/${year}, ${formattedHours}:${minutes}:${seconds} ${ampm}`;
+        };
 
      
 
@@ -103,8 +109,6 @@ const AddBook: React.FC = () => {
         setError(null);
     
         try {
-            const currentDate = new Date();
-            const dateTime = currentDate.toLocaleString();
     
             // Create the dropoffLocation object
             const dropoffLocation = {
@@ -116,7 +120,7 @@ const AddBook: React.FC = () => {
             const docRef = await addDoc(collection(db, `user/${uid}/bookings`), {
                 ...formData,
                 showroomId: showroomId,
-                dateTime: dateTime,
+                dateTime: formatDate(new Date()), // Ensure correct date format
                 createdAt: Timestamp.now(),
                 bookingStatus: 'ShowRoom Booking',
                 status: 'booking added',
