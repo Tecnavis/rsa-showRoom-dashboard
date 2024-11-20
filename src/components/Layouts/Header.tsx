@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getFirestore, collection, doc, getDoc, DocumentData } from 'firebase/firestore';
-import { IoIosLogOut } from "react-icons/io";
-import { IoLogOut } from 'react-icons/io5';
+import {  IoMdAddCircleOutline, IoMdLogOut, IoMdQrScanner } from "react-icons/io";
+import styles from './header.module.css'
+import IconCashBanknotes from '../Icon/IconCashBanknotes';
+// import { IoLogOut } from 'react-icons/io5';
 
 
 const Header: React.FC = () => {
@@ -39,11 +41,24 @@ const Header: React.FC = () => {
 
     return (
         <header>
-            <div className="shadow-sm">
-                <div className="relative bg-white flex w-full items-center justify-between px-5 py-2.5 dark:bg-black">
-                    <Link to="/" className="main-logo flex items-center shrink-0">
-                        <img className="w-32 ltr:-ml-2 rtl:-mr-2 inline" src="/assets/images/auth/rsa-png.png" alt="logo" />
-                    </Link>
+            <div >
+                <div   className={`${styles.main} relative bg-white flex w-full items-center justify-between px-5 py-2.5 dark:bg-black`}>
+                   <Link to='/showrm'>
+                   <img className="w-32 ltr:-ml-2 rtl:-mr-2 inline" src="/assets/images/auth/rsa-png.png" alt="logo" />
+                   </Link>
+                        <div className="add-booking">
+          
+         
+          <Link to="/showrm/qr">
+              <button style={{display:'flex', alignItems:'center',gap:'10px'}} className="qr-button"><IoMdQrScanner size={20}/> QRCode Login </button>
+          </Link>
+          <Link to="/addbook">
+              <button style={{display:'flex', alignItems:'center',gap:'10px'}} className="add-booking-button"><IoMdAddCircleOutline size={20}/> Add Booking</button>
+          </Link>
+          <Link to="/cashreport">
+              <button style={{display:'flex', alignItems:'center',gap:'10px'}} className="cash-report-button"><IconCashBanknotes /> Cash Report</button>
+          </Link>
+      </div>
                     <div 
                         className="toll-free-number text-gray-600 dark:text-gray-400" 
                         style={{
@@ -55,7 +70,7 @@ const Header: React.FC = () => {
                     >
                         Help-Line Number: {tollFreeNumber}
                     </div>
-<button onClick={logOut}><IoLogOut size={36} color='red'/></button>
+<button onClick={logOut}><IoMdLogOut size={36} color='red'/></button>
                 </div>
             </div>
         </header>

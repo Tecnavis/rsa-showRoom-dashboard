@@ -159,7 +159,7 @@ const AddBook: React.FC = () => {
         <div>
             <Header />
             <div style={{ padding: '1.5rem', flex: 1, marginTop: '2rem', margin: '2rem auto', maxWidth: '800px', boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)', borderRadius: '10px', backgroundColor: 'lightblue' }}>
-                <button
+                {/* <button
                     onClick={handleBack}
                     style={{
                         backgroundColor: '#6c757d',
@@ -174,7 +174,8 @@ const AddBook: React.FC = () => {
                     }}
                 >
                     Back
-                </button>                <h5 className="font-semibold text-lg p-4" style={{ marginBottom: '1rem', borderBottom: '1px solid #ddd', paddingBottom: '1rem' }}>Add Bookings</h5>
+                </button>                */}
+                 <h5 className="font-semibold text-lg p-4" style={{ marginBottom: '1rem', borderBottom: '1px solid #ddd', paddingBottom: '1rem' }}>Add Bookings</h5>
                 <div style={{ padding: '1rem' }}>
                     {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
                     <div className="mb-4" style={{ marginBottom: '20px', fontFamily: 'Arial, sans-serif', color: '#333', padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>

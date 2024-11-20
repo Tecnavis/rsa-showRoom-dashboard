@@ -15,6 +15,8 @@ import Button from '@mui/material/Button';
 import { collection, doc, getDoc, getDocs, getFirestore, query, where, setDoc } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import './ShowRm.css';
+import { IoIosGift, IoMdAdd, IoMdAddCircleOutline, IoMdQrScanner } from 'react-icons/io';
+import IconCashBanknotes from '../../components/Icon/IconCashBanknotes';
 
 interface RewardItem {
     _id: string;
@@ -50,6 +52,7 @@ const ShowRm: React.FC = () => {
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
+    
 
     useEffect(() => {
         if (isModalOpen) {
@@ -137,18 +140,20 @@ const ShowRm: React.FC = () => {
             <Header />
 
             <div className="add-booking">
-                <button className="rewardButton" onClick={handleRewardButtonClick}>
-                    Rewards
+          
+                <button style={{display:'flex', alignItems:'center',gap:'10px'}} className="rewardButton" onClick={handleRewardButtonClick}>
+                <IoIosGift  size={20}/>
+                 
                 </button>
-                <Link to="/showrm/qr">
-                    <button className="qr-button">QRCode Login </button>
+                {/* <Link to="/showrm/qr">
+                    <button style={{display:'flex', alignItems:'center',gap:'10px'}} className="qr-button"><IoMdQrScanner size={20}/> QRCode Login </button>
                 </Link>
                 <Link to="/addbook">
-                    <button className="add-booking-button">Add Booking</button>
+                    <button style={{display:'flex', alignItems:'center',gap:'10px'}} className="add-booking-button"><IoMdAddCircleOutline size={20}/> Add Booking</button>
                 </Link>
                 <Link to="/cashreport">
-                    <button className="cash-report-button">Cash Report</button>
-                </Link>
+                    <button style={{display:'flex', alignItems:'center',gap:'10px'}} className="cash-report-button"><IconCashBanknotes size={20}/> Cash Report</button>
+                </Link> */}
             </div>
             <div className="tab-buttons">
                 {['serviceCenter', 'bodyParts', 'showRooms'].map((tab) => (

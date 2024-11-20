@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Layouts/Header';
 
 interface Booking {
   id: string;
@@ -132,6 +133,7 @@ setBookings(sortedBookingsData);
 
   return (
     <div className="p-8 overflow-x-auto">
+      <Header/>
       <h2 className="text-center mb-8 text-3xl font-bold text-gray-800">Cash Report</h2>
 
       <div className="mb-6 flex flex-wrap justify-center gap-2">

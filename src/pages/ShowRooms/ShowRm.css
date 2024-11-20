@@ -46,6 +46,17 @@
   transform: scale(1); /* Remove scaling effect when clicked */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow when clicked */
 }
+.rewardButton:hover {
+  background-color: #a00e0e; /* Darker purple on hover */
+  transform: scale(1.05); /* Slight scaling on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
+}
+
+.rewardButton:active {
+  background-color: #a00e0e; /* Even darker purple when clicked */
+  transform: scale(1); /* Remove scaling effect when clicked */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow when clicked */
+}
 
 
 .add-booking {
@@ -221,11 +232,9 @@
 
 .tab-button {
   padding: 10px 20px;
-  margin: 0 10px 30px;
   background-color: #f0f0f0;
   color: #000;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
@@ -239,7 +248,7 @@
 }
 
 .tab-button:hover {
-  background-color: #e0e0e0; /* Light background on hover */
+  background-color: #014691; /* Light background on hover */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
 }
 
