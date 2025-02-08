@@ -1,12 +1,12 @@
-/* Apply CSS to the QRLogin component */
+
+
 .qr-login-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f9f9f9;
-    padding: 20px;
+    height: 70vh;
+    padding: 10px;
     box-sizing: border-box;
   }
   

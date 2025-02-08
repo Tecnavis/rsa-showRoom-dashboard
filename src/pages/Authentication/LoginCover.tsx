@@ -37,7 +37,7 @@ const LoginCover: React.FC = () => {
                     console.log('UserName set in localStorage:', localStorage.getItem('userName'));
                     console.log('Password set in localStorage:', localStorage.getItem('password'));
 
-                    navigate(`/showrm`);
+                    navigate('/index');
                 } else {
                     console.error("User not found or incorrect password");
                     alert("User not found or incorrect password");

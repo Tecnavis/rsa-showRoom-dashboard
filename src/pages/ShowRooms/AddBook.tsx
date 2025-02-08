@@ -9,7 +9,7 @@ interface FormData {
     fileNumber: string;
     customerName: string;
     phoneNumber: string;
-    vehicleSection: string;
+    serviceCategory: string;
     vehicleNumber: string;
     comments: string;
    
@@ -18,12 +18,13 @@ interface FormData {
 const AddBook: React.FC = () => {
     const showroomId = localStorage.getItem('showroomId');
     console.log("first", showroomId);
+  const [currentDateTime, setCurrentDateTime] = useState<string>("");
 
     const [formData, setFormData] = useState<FormData>({
         fileNumber: '',
         customerName: '',
         phoneNumber: '',
-        vehicleSection: '',
+        serviceCategory: '',
         vehicleNumber: '',
         comments: '',
       
@@ -92,11 +93,30 @@ const AddBook: React.FC = () => {
             return `${day}/${month}/${year}, ${formattedHours}:${minutes}:${seconds} ${ampm}`;
         };
 
-     
+        useEffect(() => {
+            const updateDateTime = () => {
+              const now = new Date();
+              setCurrentDateTime(now.toLocaleString("en-GB", { 
+                weekday: "long", 
+                year: "numeric", 
+                month: "long", 
+                day: "2-digit", 
+                hour: "2-digit", 
+                minute: "2-digit", 
+                second: "2-digit",
+                hour12: true 
+              }));
+            };
+        
+            updateDateTime();
+            const interval = setInterval(updateDateTime, 1000);
+            
+            return () => clearInterval(interval);
+          }, []);
 
     const validateForm = (): boolean => {
-        const { customerName, phoneNumber, vehicleSection, vehicleNumber } = formData;
-        return !!(customerName && phoneNumber && vehicleSection && vehicleNumber);
+        const { customerName, phoneNumber, serviceCategory, vehicleNumber } = formData;
+        return !!(customerName && phoneNumber && serviceCategory && vehicleNumber);
     };
 
     const handleSubmit = async () => {
@@ -123,9 +143,11 @@ const AddBook: React.FC = () => {
                 dateTime: formatDate(new Date()), // Ensure correct date format
                 createdAt: Timestamp.now(),
                 bookingStatus: 'ShowRoom Booking',
+                bookingEdit: true,
+
                 status: 'booking added',
                 bookingId: bookingId,
-                company: 'rsa',
+                // company: 'rsa',
                 createdBy:'showroom',
                 dropoffLocation: dropoffLocation,
                 showroomLocation: dropoffLocation.name,
@@ -139,7 +161,7 @@ const AddBook: React.FC = () => {
                 customerName: '',
                 phoneNumber: '',
                 vehicleNumber: '',
-                vehicleSection: '',
+                serviceCategory: '',
                 comments: '',
             });
     
@@ -151,31 +173,16 @@ const AddBook: React.FC = () => {
             setLoading(false);
         }
     };
-    
-    const handleBack = () => {
-        navigate(-1); // Go back to the previous page
-    };
+  
     return (
-        <div>
-            <Header />
-            <div style={{ padding: '1.5rem', flex: 1, marginTop: '2rem', margin: '2rem auto', maxWidth: '800px', boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)', borderRadius: '10px', backgroundColor: 'lightblue' }}>
-                <button
-                    onClick={handleBack}
-                    style={{
-                        backgroundColor: '#6c757d',
-                        color: '#fff',
-                        padding: '0.5rem 1rem',
-                        border: 'none',
-                        borderRadius: '5px',
-                        fontSize: '1rem',
-                        cursor: 'pointer',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        marginBottom: '1rem',
-                    }}
-                >
-                    Back
-                </button>                <h5 className="font-semibold text-lg p-4" style={{ marginBottom: '1rem', borderBottom: '1px solid #ddd', paddingBottom: '1rem' }}>Add Bookings</h5>
-                <div style={{ padding: '1rem' }}>
+   
+          
+            
+            <div style={{ padding: '1.5rem', flex: 1, marginTop: '1rem', margin: '2rem auto', maxWidth: '800px', boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)', borderRadius: '10px', backgroundColor: 'rgba(246, 213, 211, 0.2)' }}>
+                             <h5 className="font-semibold text-lg p-4" style={{ marginBottom: '1rem', borderBottom: '1px solid #ddd', paddingBottom: '1rem' }}>Add Bookings</h5>
+                <div style={{ padding: '1rem' }}><h2 className="text-center text-lg font-medium text-gray-600  italic">
+  {currentDateTime}
+</h2>
                     {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
                     <div className="mb-4" style={{ marginBottom: '20px', fontFamily: 'Arial, sans-serif', color: '#333', padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
                         <strong style={{ fontWeight: 'bold', color: '#007bff', fontSize: '16px' }}>Booking ID: </strong>
@@ -205,12 +212,12 @@ const AddBook: React.FC = () => {
                         />
                     </div>
                     <div className="flex items-center" style={{ marginBottom: '1rem' }}>
-                        <label htmlFor="vehicleSection" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Vehicle Section</label>
+                        <label htmlFor="serviceCategory" className="w-1/3 mb-0" style={{ marginRight: '1rem' }}>Vehicle Section</label>
                         <select
-                            id="vehicleSection"
-                            name="vehicleSection"
+                            id="serviceCategory"
+                            name="serviceCategory"
                             className="form-select flex-1"
-                            value={formData.vehicleSection}
+                            value={formData.serviceCategory}
                             style={{
                                 width: '100%',
                                 padding: '0.75rem',
@@ -220,11 +227,11 @@ const AddBook: React.FC = () => {
                                 outline: 'none',
                                 boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                             }}
-                            onChange={(e: ChangeEvent<HTMLSelectElement>) => handleInputChange('vehicleSection', e.target.value)}
+                            onChange={(e: ChangeEvent<HTMLSelectElement>) => handleInputChange('serviceCategory', e.target.value)}
                         >
                             <option value="">Select Service Section</option>
                             <option value="Service Center">Service Center</option>
-                            <option value="Body Shopes">Body Shopes</option>
+                            <option value="Body Shop">Body Shopes</option>
                             <option value="ShowRooms">ShowRooms</option>
 
                         </select>
@@ -335,7 +342,7 @@ const AddBook: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </div>
+    
     );
 };
 
