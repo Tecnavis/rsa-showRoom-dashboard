@@ -18,6 +18,8 @@ import AddBook from '../pages/ShowRooms/AddBook';
 import CashReport from '../pages/Report/CashReport';
 import QRLogin from '../pages/Authentication/QRLogin';
 import InvoiceReport from '../pages/Report/InvoiceReport';
+import Staff from '../pages/Staffs/Staff';
+import ViewMore from '../pages/Details/ViewMore';
 
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -143,13 +145,14 @@ const routes = [
     {
         path: '/showrm/qr',
         element: <QRLogin/>,
-        layout: 'blank',
+        // layout: 'blank',
 
     },
  
     {
         path: '/index',
         element: <Index />,
+        // layout: 'blank',
     },
 // showroom
 
@@ -157,7 +160,7 @@ const routes = [
 {
     path: '/showrm',
     element: <ShowRm/>,
-    layout: 'blank',
+    // layout: 'blank',
 
 },
 // {
@@ -169,7 +172,20 @@ const routes = [
 {
     path: '/addbook',
     element: <AddBook/>,
-    layout: 'blank',
+    // layout: 'blank',
+
+},
+{
+    path: '/staff',
+    element: <Staff/>,
+    // layout: 'blank',
+
+},
+// details page
+{
+    path: '/showrm/viewmore/:id',
+    element: <ViewMore/>,
+    // layout: 'blank',
 
 },
     // analytics page
@@ -185,7 +201,7 @@ const routes = [
     {
         path: '/cashreport',
         element: <CashReport />,
-        layout: 'blank',
+        // layout: 'blank',
 
     },
     // crypto page

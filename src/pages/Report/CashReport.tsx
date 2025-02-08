@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Layouts/Header';
+import '../ShowRooms/ShowRm.css';
 
 interface Booking {
   id: string;
@@ -20,18 +22,22 @@ interface Booking {
   approveStatus: string;
 }
 
-const months = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
+
 
 const CashReport: React.FC = () => {
   const showroomId = localStorage.getItem('showroomId');
   const uid = import.meta.env.VITE_REACT_APP_UID;
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [viewFilter, setViewFilter] = useState<'monthly' | 'yearly' | 'all'>('all');
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
-  const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [viewFilter, setViewFilter] = useState<"monthly" | "yearly" | "all">(
+    "monthly"
+  );
+  const [currentDateTime, setCurrentDateTime] = useState<string>("");
+  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];  const [totalAmount, setTotalAmount] = useState<number>(0);
   const [monthlyTotalAmount, setMonthlyTotalAmount] = useState<number>(0);
   const navigate = useNavigate();
   const [balanceMonthlyTotal, setBalanceMonthlyTotal] = useState<number>(0);
@@ -42,15 +48,11 @@ const CashReport: React.FC = () => {
     const fetchBookings = async () => {
       try {
         const db = getFirestore();
-        const statusConditions = [
-          'booking added', 'Contacted Customer', 'Vehicle Picked',
-          'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff', 'Order Completed'
-        ];
-
+     
         const q = query(
           collection(db, `user/${uid}/bookings`),
           where('showroomId', '==', showroomId),
-          where('status', 'in', statusConditions)
+            where('status', '==', 'Order Completed') // Add this where clause
         );
 
         const querySnapshot = await getDocs(q);
@@ -114,7 +116,26 @@ setBookings(sortedBookingsData);
       console.error('showroomId is not available');
     }
   }, [showroomId, uid, viewFilter, selectedMonth]);
+  useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date();
+      setCurrentDateTime(now.toLocaleString("en-GB", { 
+        weekday: "long", 
+        year: "numeric", 
+        month: "long", 
+        day: "2-digit", 
+        hour: "2-digit", 
+        minute: "2-digit", 
+        second: "2-digit",
+        hour12: true 
+      }));
+    };
 
+    updateDateTime();
+    const interval = setInterval(updateDateTime, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
   const formatDateTime = (timestamp: Timestamp) => {
     const date = timestamp.toDate();
     const options: Intl.DateTimeFormatOptions = {
@@ -131,79 +152,92 @@ setBookings(sortedBookingsData);
   };
 
   return (
-    <div className="p-8 overflow-x-auto">
-      <h2 className="text-center mb-8 text-3xl font-bold text-gray-800">Cash Report</h2>
+       
 
-      <div className="mb-6 flex flex-wrap justify-center gap-2">
-  <button
-    onClick={() => setViewFilter('monthly')}
-    className={`px-6 py-3 ${viewFilter === 'monthly' ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-blue-500 to-blue-600'} text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-transform transform hover:scale-105`}
-  >
-    Monthly View
-  </button>
-  <button
-    onClick={() => setViewFilter('yearly')}
-    className={`ml-2 px-6 py-3 ${viewFilter === 'yearly' ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-blue-500 to-blue-600'} text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-transform transform hover:scale-105`}
-  >
-    Yearly View
-  </button>
-  <button
-    onClick={() => setViewFilter('all')}
-    className={`ml-2 px-6 py-3 ${viewFilter === 'all' ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-blue-500 to-blue-600'} text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-transform transform hover:scale-105`}
-  >
-    All
-  </button>
-</div>
-{viewFilter === 'monthly' && (
-  <div className="mb-6 flex flex-wrap justify-center gap-2">
-    {months.map((month, index) => (
-      <button
-        key={index}
-        onClick={() => setSelectedMonth(index)}
-        className={`px-6 py-3 ${selectedMonth === index ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-blue-500 to-blue-600'} text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-transform transform hover:scale-105`}
-      >
-        {month}
-      </button>
-    ))}
-    <button
-      onClick={() => setSelectedMonth(null)}
-      className={`ml-2 px-6 py-3 ${selectedMonth === null ? 'bg-gradient-to-r from-blue-600 to-blue-700' : 'bg-gradient-to-r from-blue-500 to-blue-600'} text-white font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-transform transform hover:scale-105`}
-    >
-      All Months
-    </button>
-  </div>
-)}
-<thead className="bg-gray-50 border-b border-gray-200">
-  <tr className="bg-gray-100">
-  <td colSpan={5} className="text-right px-6 py-3 font-medium text-gray-600">
-  {selectedMonth !== null ? `Monthly Total (${months[selectedMonth]}):` : "Monthly Total:"}
-</td>
-<td colSpan={5} className="text-left px-6 py-3 font-medium text-gray-800 bg-gray-200 rounded-lg shadow-sm">
-  {monthlyTotalAmount.toFixed(2)}
-</td>
-  </tr>
+    <div className="w-full max-w-5xl mx-auto px-4 py-6">
+  <h2 className="text-center uppercase text-3xl font-semibold text-gray-900 p-5 shadow-sm rounded-lg bg-white border border-gray-200 tracking-wide">
+  Cash Report
+</h2>
+
+
+
+
+      {/* Tabs for Monthly, Yearly, All */}
+      <div className="flex justify-center space-x-3 my-4">
+        {["monthly", "yearly", "all"].map((filter) => (
+          <button
+            key={filter}
+            onClick={() => setViewFilter(filter as any)}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-300 ${
+              viewFilter === filter
+                ? "bg-blue-600 text-white shadow-md"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            {filter.charAt(0).toUpperCase() + filter.slice(1)} View
+          </button>
+        ))}
+      </div>
+
+      {/* Monthly Tabs */}
+      {viewFilter === "monthly" && (
+        <div className="flex flex-wrap justify-center gap-2 my-4">
+          {months.map((month, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedMonth(index)}
+              className={`px-3 py-2 text-sm font-medium rounded-md transition-all duration-300 ${
+                selectedMonth === index
+                  ? "bg-green-600 text-white shadow-md"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {month}
+            </button>
+          ))}
+        </div>
+      )}
+   
  
+
+   <thead className="bg-gray-50 border-b border-gray-300">
   <tr className="bg-gray-100">
- <td colSpan={5} className="text-right px-6 py-3 font-medium text-gray-600">
-  {selectedMonth !== null ? `Monthly Total Balance (${months[selectedMonth]}):` : "Monthly Total Balance:"}
-</td>
-    <td colSpan={5} className="text-left px-6 py-3 font-medium text-gray-800 bg-gray-200 rounded-lg shadow-sm">
+    <td colSpan={5} className="text-right px-6 py-3 font-medium text-gray-700">
+      {selectedMonth !== null ? `Monthly Total (${months[selectedMonth]}):` : "Monthly Total:"}
+    </td>
+    <td colSpan={5} className="text-left px-6 py-3 font-semibold text-gray-900 bg-gray-200 rounded-md shadow-xs">
+      {monthlyTotalAmount.toFixed(2)}
+    </td>
+  </tr>
+
+  <tr className="bg-gray-100">
+    <td colSpan={5} className="text-right px-6 py-3 font-medium text-gray-700">
+      {selectedMonth !== null ? `Monthly Total Balance (${months[selectedMonth]}):` : "Monthly Total Balance:"}
+    </td>
+    <td colSpan={5} className="text-left px-6 py-3 font-semibold text-gray-900 bg-gray-200 rounded-md shadow-xs">
       {balanceMonthlyTotal.toFixed(2)}
     </td>
   </tr>
+
   <tr className="bg-gray-100">
-    <td colSpan={5} className="text-right px-6 py-3 font-medium text-gray-600">Whole Total:</td>
-    <td colSpan={5} className="text-left px-6 py-3 font-medium text-gray-800 bg-gray-200 rounded-lg shadow-sm">
+    <td colSpan={5} className="text-right px-6 py-3 font-medium text-gray-700">
+      Whole Total:
+    </td>
+    <td colSpan={5} className="text-left px-6 py-3 font-semibold text-gray-900 bg-gray-200 rounded-md shadow-xs">
       {totalAmount.toFixed(2)}
     </td>
   </tr>
+
   <tr className="bg-gray-100">
-    <td colSpan={5} className="text-right px-6 py-3 font-medium text-gray-600">Whole Total Balance:</td>
-    <td colSpan={5} className="text-left px-6 py-3 font-medium text-gray-800 bg-gray-200 rounded-lg shadow-sm">
+    <td colSpan={5} className="text-right px-6 py-3 font-medium text-gray-700">
+      Whole Total Balance:
+    </td>
+    <td colSpan={5} className="text-left px-6 py-3 font-semibold text-gray-900 bg-gray-200 rounded-md shadow-xs">
       {balanceTotal.toFixed(2)}
     </td>
   </tr>
 </thead>
+
 
 
       <table className="w-full border-collapse shadow-md table-fixed">
@@ -253,6 +287,7 @@ setBookings(sortedBookingsData);
 
       </table>
     </div>
+ 
   );
 };
 

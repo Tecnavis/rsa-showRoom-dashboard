@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import './QR.css';
+import Header from '../../components/Layouts/Header';
 const QRLogin: React.FC = () => {
   const [showroomLink, setShowroomLink] = useState<string | null>(null); // State to store the showroom link
   const [qrCode, setQrCode] = useState<string | null>(null); // State to store the QR code
@@ -39,6 +40,8 @@ const QRLogin: React.FC = () => {
   }, [showroomId, db, uid]);
 
   return (
+    <div>     
+
     <div className="qr-login-container">
       {showroomLink ? (
         <div>
@@ -57,6 +60,7 @@ const QRLogin: React.FC = () => {
       ) : (
         <p>Loading Showroom Link...</p>
       )}
+    </div>
     </div>
   );
 };
