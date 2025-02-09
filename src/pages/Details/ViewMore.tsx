@@ -330,7 +330,7 @@ const ViewMore: React.FC = () => {
                                     className="cursor-pointer" // Make the image clickable
                                     onClick={() => handleImageClick(url)} // Open the image in the modal
                                 />
-                                <input type="file" accept="image/*" onChange={(event) => handleReplaceImage(event, index, 'vehicleImageURLs')} />
+                                {/* <input type="file" accept="image/*" onChange={(event) => handleReplaceImage(event, index, 'vehicleImageURLs')} /> */}
                             </div>
                         ))}
                     </div>
@@ -349,7 +349,7 @@ const ViewMore: React.FC = () => {
                                     className="cursor-pointer" // Make the image clickable
                                     onClick={() => handleImageClick(url)} // Open the image in the modal
                                 />
-                                <input type="file" accept="image/*" onChange={(event) => handleReplaceImage(event, index, 'vehicleImgURLs')} />
+                                {/* <input type="file" accept="image/*" onChange={(event) => handleReplaceImage(event, index, 'vehicleImgURLs')} /> */}
                             </div>
                         ))}
                     </div>
