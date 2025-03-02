@@ -136,6 +136,8 @@ style={{
       <table style={{ width: '100%', borderCollapse: 'collapse', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
         <thead>
           <tr className="table-header">
+          <th className="table-cell">Index</th>
+
             <th className="table-cell">Date & Time</th>
             <th className="table-cell">File Number</th>
             <th className="table-cell">Customer Name</th>
@@ -144,8 +146,10 @@ style={{
           </tr>
         </thead>
         <tbody>
-          {bookings.map((booking) => (
+          {bookings.map((booking,index) => (
              <tr key={booking.id} className="table-row">
+                           <td className="table-cell">{index+1}</td>
+
              <td className="table-cell">{booking.dateTime}</td>
              <td className="table-cell">
   <Link 

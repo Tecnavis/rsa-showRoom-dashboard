@@ -44,23 +44,13 @@ const ServiceCenter: React.FC = () => {
           const showroomDoc = await getDoc(showroomDocRef);
     
           if (showroomDoc.exists()) {
-            const showroomData = showroomDoc.data();
     
             // Fetch staff members from the showroom data
-            const staffData: Staff[] = showroomData.staff.map((staffMember: any) => ({
-              id: staffMember.phoneNumber, // Assuming phone number is unique
-              name: staffMember.name,
-              phoneNumber: staffMember.phoneNumber,
-            }));
-    
-            setStaff(staffData);
+          
     
             // Fetch Bookings
             const statusConditions = [
-            
-             
-
-              'booking added',
+       'booking added',
               'called to customer',
               'Order Received',
               'On the way to pickup location',
@@ -95,7 +85,9 @@ const ServiceCenter: React.FC = () => {
                 createdBy: booking.createdBy
               });
             });
-            setBookings(bookingsData);
+            const sortedBookings = bookingsData.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+
+            setBookings(sortedBookings);
           } else {
             console.error('Showroom document does not exist');
           }

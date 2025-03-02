@@ -46,7 +46,7 @@ const Header: React.FC = () => {
   }, [showroomId]);
 
   return (
-<header className="shadow-lg text-white font-poppins" style={{background:'rgba(243, 169, 169, 0.2)'}}>
+<header className="shadow-lg bg-white text-gray font-poppins">
 <div className="container mx-auto flex items-center justify-between px-6 py-4">
       {/* Logo Section */}
       <div className="flex flex-col items-start">
@@ -70,6 +70,13 @@ const Header: React.FC = () => {
       {/* Navigation Menu and Profile */}
       <div className="flex items-center space-x-4">  {/* Adjusted space-x to space them closer */}
         <nav className="hidden md:flex items-center space-x-6">
+        <Link
+            to="/index"
+            className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
+          >
+            Dash Board
+          </Link>
+          
           <Link
             to="/showrm"
             className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
@@ -88,6 +95,7 @@ const Header: React.FC = () => {
           >
             QRCode Login
           </Link>
+          
           <Link
             to="/addbook"
             className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
@@ -112,7 +120,7 @@ const Header: React.FC = () => {
               <img
                 className="w-14 h-14 rounded-full object-cover saturate-50 group-hover:saturate-100"
                 src={img || "/default-avatar.png"} // Use img URL or fallback to a default image
-                alt="userProfile"
+                alt="showroom"
               />
             }
           >
@@ -174,6 +182,15 @@ const Header: React.FC = () => {
 {isMobileMenuOpen && (
   <nav className="md:hidden  shadow-lg rounded-lg border border-gray-200">
     <ul className="flex flex-col space-y-2 px-6 py-4">
+    <li>
+        <Link
+          to="/index"
+          className="block text-lg font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200 rounded-md px-4 py-2"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Dash Board
+        </Link>
+      </li>
       <li>
         <Link
           to="/showrm"

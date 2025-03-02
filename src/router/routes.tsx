@@ -20,6 +20,9 @@ import QRLogin from '../pages/Authentication/QRLogin';
 import InvoiceReport from '../pages/Report/InvoiceReport';
 import Staff from '../pages/Staffs/Staff';
 import ViewMore from '../pages/Details/ViewMore';
+import ServiceCenterCashReport from '../pages/Report/ServiceCenterCashReport';
+import BodyShopeCashReport from '../pages/Report/BodyShopeCashReport';
+import ShowroomCashReport from '../pages/Report/ShowroomCashReport';
 
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -204,6 +207,25 @@ const routes = [
         // layout: 'blank',
 
     },
+
+{
+    path: '/serviceCashreport',
+    element: <ServiceCenterCashReport />,
+    // layout: 'blank',
+
+},
+{
+    path: '/bodyShopeCashreport',
+    element: <BodyShopeCashReport />,
+    // layout: 'blank',
+
+},
+{
+    path: '/showroomCashreport',
+    element: <ShowroomCashReport />,
+    // layout: 'blank',
+
+},
     // crypto page
     {
         path: '/crypto',

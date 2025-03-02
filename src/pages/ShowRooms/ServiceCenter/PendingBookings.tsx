@@ -20,13 +20,13 @@ const PendingBookings: React.FC = () => {
   // const IoPersonOutline = require('react-icons/io5')
   const [bookings, setBookings] = useState<Booking[]>([]);
   const uid = import.meta.env.VITE_REACT_APP_UID;
+  const showroomId = localStorage.getItem('showroomId');
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const db = getFirestore();
-        const showroomId = localStorage.getItem('user/${uid}/showroomId');
-        
+        console.log("showroomIdshowroomId",showroomId)
         if (showroomId) {
           const statusConditions = [
             

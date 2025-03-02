@@ -20,7 +20,7 @@ const ShowRm: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<'bookings' | 'completedBookings' | 'pendingBookings'>('bookings');
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto ">
       {/* Main Tabs Navigation */}
       <div className="flex justify-center border-b border-gray-300 mb-4">
   <button
