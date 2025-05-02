@@ -23,6 +23,8 @@ import ViewMore from '../pages/Details/ViewMore';
 import ServiceCenterCashReport from '../pages/Report/ServiceCenterCashReport';
 import BodyShopeCashReport from '../pages/Report/BodyShopeCashReport';
 import ShowroomCashReport from '../pages/Report/ShowroomCashReport';
+import Reward from '../pages/Rewards/Reward';
+import Home from '../pages/Pages/Home';
 
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -166,6 +168,12 @@ const routes = [
     // layout: 'blank',
 
 },
+{
+    path: '/home',
+    element: <Home/>,
+    // layout: 'blank',
+
+},
 // {
 //     path: '/showroomstaff ',
 //     element: <ShowroomStaff/>,
@@ -181,6 +189,12 @@ const routes = [
 {
     path: '/staff',
     element: <Staff/>,
+    // layout: 'blank',
+
+},
+{
+    path: '/rewards',
+    element: <Reward/>,
     // layout: 'blank',
 
 },

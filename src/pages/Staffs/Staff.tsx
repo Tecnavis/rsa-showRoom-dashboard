@@ -3,6 +3,7 @@ import { getFirestore, doc, getDoc, updateDoc, collection, getDocs, setDoc, dele
 import IconTrash from "../../components/Icon/IconTrash";
 import IconEdit from "../../components/Icon/IconEdit";
 import { DocumentReference } from "firebase/firestore";
+import IconAward from "../../components/Icon/IconAward";
 
 interface Staff {
   id: string;
@@ -21,7 +22,10 @@ const Staff: React.FC = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [staffToDelete, setStaffToDelete] = useState<string | null>(null);
   const showroomId = localStorage.getItem("showroomId");
-
+  const [claimedRewards, setClaimedRewards] = useState<{ [key: string]: any[] }>({});
+  const [rewardsOpen, setRewardsOpen] = useState(false);
+  const [selectedStaffId, setSelectedStaffId] = useState<string | null>(null);
+  
   const uid = import.meta.env.VITE_REACT_APP_UID;
   const db = getFirestore();
 
@@ -42,7 +46,22 @@ const Staff: React.FC = () => {
 
     fetchStaff();
   }, [uid]);
-
+  const fetchClaimedRewards = async (staffId: string) => {
+    try {
+      const rewardsCollectionRef = collection(db, `user/${uid}/showroomStaff/${staffId}/claimedRewards`);
+      const rewardsSnapshot = await getDocs(rewardsCollectionRef);
+      const rewardsList = rewardsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+  
+      setClaimedRewards((prev) => ({ ...prev, [staffId]: rewardsList }));
+      setSelectedStaffId(staffId);
+      setRewardsOpen(true);
+    } catch (error) {
+      console.error("Error fetching claimed rewards:", error);
+    }
+  };
   const deleteStaffMember = async (id: string) => {
     try {
       setLoading((prev) => ({ ...prev, [id]: true }));
@@ -130,6 +149,8 @@ const Staff: React.FC = () => {
               <th className="py-3 px-4 text-left border-b">Designation</th>
               <th className="py-3 px-4 text-left border-b">WhatsApp</th>
               <th className="py-3 px-4 text-center border-b">Actions</th>
+              <th className="py-3 px-4 text-center border-b">Reward</th>
+
             </tr>
           </thead>
           <tbody>
@@ -146,7 +167,7 @@ const Staff: React.FC = () => {
                     setSelectedStaff(member);
                     setNewStaff(member);
                   }}
-                  className="px-4 py-2 bg-gray-200 text-yellow-600 rounded-lg hover:bg-yellow-200 transition-all"
+                  className="px-4 py-2 bg-gray-200 text-green-600 rounded-lg hover:bg-yellow-200 transition-all"
                 >
 <IconEdit/>                </button>
                 {loading[member.id] ? (
@@ -165,11 +186,52 @@ const Staff: React.FC = () => {
                   </button>
                 )}
               </td>
+              <td className="py-3 px-4 text-center space-x-2">
+  <button
+    onClick={() => fetchClaimedRewards(member.id)}
+    className="px-4 py-2 bg-gray-200 text-yellow-600 rounded-lg hover:bg-yellow-200 transition-all"
+  >
+    <IconAward/>
+  </button>
+</td>
+
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+    {rewardsOpen && selectedStaffId && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+      <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700" onClick={() => setRewardsOpen(false)}>
+        ✖
+      </button>
+      <h3 className="text-xl font-semibold mb-4">Claimed Rewards</h3>
+      {claimedRewards[selectedStaffId]?.length > 0 ? (
+        <ul className="list-disc list-inside">
+          {claimedRewards[selectedStaffId].map((reward) => (
+            <div className="flex items-center space-x-4">
+            {reward.itemImage && (
+              <div className="w-24 h-24">
+                <img src={reward.itemImage} alt={reward.itemName} className="w-full h-full object-cover rounded-lg" />
+              </div>
+            )}
+            <div>
+              <h2 className="text-xl font-bold">{reward.itemName}</h2>
+              <p className="text-gray-700">Points Used: {reward.itemPoints}</p>
+              <p className="text-gray-500">Category: {reward.category}</p>
+              <p className="text-gray-500">Price: ₹{reward.price}</p>
+              <p className="text-gray-400 text-sm">Claimed on: {reward.claimedDate.toDate().toLocaleDateString()}</p>
+            </div>
+          </div>
+          ))}
+        </ul>
+      ) : (
+        <p>No rewards claimed yet.</p>
+      )}
+    </div>
+  </div>
+)}
 
     {confirmOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

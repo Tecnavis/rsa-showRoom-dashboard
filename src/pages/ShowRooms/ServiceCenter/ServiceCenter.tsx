@@ -85,8 +85,12 @@ const ServiceCenter: React.FC = () => {
                 createdBy: booking.createdBy
               });
             });
-            const sortedBookings = bookingsData.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
-
+            const sortedBookings = bookingsData.sort((a, b) => {
+              const dateA = new Date(a.dateTime).getTime();
+              const dateB = new Date(b.dateTime).getTime();
+              return dateA - dateB;
+            });
+            
             setBookings(sortedBookings);
           } else {
             console.error('Showroom document does not exist');

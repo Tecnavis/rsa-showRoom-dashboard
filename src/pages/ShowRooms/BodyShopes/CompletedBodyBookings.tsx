@@ -44,8 +44,10 @@ const CompletedBodyBookings: React.FC = () => {
             createdBy:booking.createdBy
           });
         });
-        setBookings(bookingsData);
-      } catch (error) {
+        const sortedBookings = bookingsData.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+
+          
+        setBookings(sortedBookings);      } catch (error) {
         console.error('Error fetching bookings:', error);
       }
     };

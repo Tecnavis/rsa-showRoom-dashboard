@@ -62,8 +62,10 @@ const PendingBodyBookings: React.FC = () => {
               createdBy:booking.createdBy
             });
           });
-          setBookings(bookingsData);
-        } else {
+          const sortedBookings = bookingsData.sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime());
+
+          
+          setBookings(sortedBookings);        } else {
           console.error('showroomId is not available');
         }
       } catch (error) {

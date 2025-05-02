@@ -76,13 +76,19 @@ const Header: React.FC = () => {
           >
             Dash Board
           </Link>
-          
           <Link
-            to="/showrm"
+            to="/home"
             className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
           >
             Home
           </Link>
+          <Link
+            to="/showrm"
+            className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
+          >
+            Bookings
+          </Link>
+         
           <Link
             to="/staff"
             className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
@@ -90,10 +96,16 @@ const Header: React.FC = () => {
             Staffs
           </Link>
           <Link
+            to="/rewards"
+            className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
+          >
+           Rewards
+          </Link>
+          <Link
             to="/showrm/qr"
             className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
           >
-            QRCode Login
+            QR Login
           </Link>
           
           <Link
@@ -106,7 +118,7 @@ const Header: React.FC = () => {
             to="/cashreport"
             className="text-red-700 font-semibold text-lg hover:text-red-500 transition duration-200"
           >
-            Cash Report
+            Reports
           </Link>
         </nav>
   
@@ -193,11 +205,20 @@ const Header: React.FC = () => {
       </li>
       <li>
         <Link
-          to="/showrm"
+          to="/home"
           className="block text-lg font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200 rounded-md px-4 py-2"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           Home
+        </Link>
+      </li>
+      <li>
+        <Link
+          to="/showrm"
+          className="block text-lg font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200 rounded-md px-4 py-2"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Bookings
         </Link>
       </li>
       <li>
@@ -211,11 +232,20 @@ const Header: React.FC = () => {
       </li>
       <li>
         <Link
+          to="/rewards"
+          className="block text-lg font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200 rounded-md px-4 py-2"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Rewards
+        </Link>
+      </li>
+      <li>
+        <Link
           to="/showrm/qr"
           className="block text-lg font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200 rounded-md px-4 py-2"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          QRCode Login
+          QR Login
         </Link>
       </li>
       <li>
@@ -233,7 +263,7 @@ const Header: React.FC = () => {
           className="block text-lg font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200 rounded-md px-4 py-2"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          Cash Report
+        Reports
         </Link>
       </li>
     </ul>
