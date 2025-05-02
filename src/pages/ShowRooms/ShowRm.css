@@ -1,181 +1,119 @@
 /* ShowRm.css */
-
+.header-floating {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensures the header stays on top */
+  background-color: white; /* Optional: Add background color for better visibility */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for a floating effect */
+  padding: 10px 20px;
+}
+/* Container Styles */
 .showrm-container {
-  font-family: Arial, sans-serif;
-  color: #333;
-  padding: 20px;
-  background: linear-gradient(135deg, #f0f0f0, #e0e0e0); /* Dynamic background gradient */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s ease; /* Smooth background transition */
-}
-/* ShowRm.css */
+  /* background: linear-gradient(135deg, rgba(232, 199, 193, 0.8), rgba(255, 223, 186, 0.8)); */
 
-/* QR Code Button Styles */
-.qr-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #6f42c1; /* Purple color for QR Code button */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  padding: 1rem 1rem;
 }
 
-.qr-button:hover {
-  background-color: #5a2a8a; /* Darker purple on hover */
-  transform: scale(1.05); /* Slight scaling on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
-}
-
-.qr-button:active {
-  background-color: #4a1a6b; /* Even darker purple when clicked */
-  transform: scale(1); /* Remove scaling effect when clicked */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow when clicked */
-}
-
-
-.add-booking {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.add-booking-button {
-  padding: 10px 20px;
-  color: #fff;
-  background-color: #28a745; /* Green color for Add Booking */
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition and scaling effect */
-}
-
-.add-booking-button:hover {
-  background-color: #218838; /* Darker green on hover */
-  transform: scale(1.05); /* Slight scaling on hover */
-}
-
-.cash-report-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #007bff; /* Blue color for Cash Report */
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition and scaling effect */
-  font-weight: bold;
-}
-
-.cash-report-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  transform: scale(1.05); /* Slight scaling on hover */
-}
-
-.tab-buttons {
+/* Tab Navigation */
+.tabs-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  
+
 }
 
 .tab-button {
+  background-color: transparent;
   padding: 10px 20px;
-  margin: 0 10px 30px;
-  background-color: #f0f0f0;
-  color: #000;
-  border: none;
-  border-radius: 5px;
+  border: 2px solid transparent;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
-}
-
-.tab-button.active {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: bold;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevated shadow for active tab */
+  text-transform: uppercase;
 }
 
 .tab-button:hover {
-  background-color: #e0e0e0; /* Light background on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
+  border-color: #f44336;
+  background-color: rgba(244, 67, 54, 0.1);}
+
+.tab-button.active {
+  border-color: #f44336;
+  color: #f44336;
+  background-color: rgba(244, 67, 54, 0.2);
 }
 
+/* Tab Content */
 .tab-content {
-  text-align: center;
-  width: auto;
-  overflow-x: auto;
-  transition: background-color 0.3s ease; /* Smooth background transition */
+  /* background: linear-gradient(135deg, rgba(232, 199, 193, 0.8), rgba(255, 223, 186, 0.8)); */
+  /* padding: 2rem; */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  margin-top: 20px;
 }
 
 .tab-pane {
-  margin: 20px auto;
-  width: 80%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #fff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transformation */
+  background: linear-gradient(135deg, rgba(253, 252, 251, 0.8), rgba(255, 223, 186, 0.8));
+
 }
 
-.tab-pane:hover {
-  transform: scale(1.02); /* Slight scaling on hover */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Elevated shadow on hover */
-}
-
+/* Select Dropdown */
 .booking-select {
   padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
   border-radius: 5px;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  outline: none;
-  cursor: pointer;
-  font-size: 1rem;
   width: 200px;
-  text-align: center;
-  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+  /* margin-bottom: 20px; */
+  background-color: #fff;
+  color: #333;
+  transition: all 0.3s ease;
 }
 
-.booking-select:hover {
-  background-color: #e0e0e0; /* Light background on hover */
-  border-color: #007bff; /* Change border color on hover */
+.booking-select:hover,
+.booking-select:focus {
+  border-color: #f44336;
 }
 
+/* General Styling for the Content */
+.tab-pane {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .tab-pane {
-    width: 100%;
-  }
-
-  .booking-select {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .tab-pane {
-    padding: 10px;
-  }
-
-  .booking-select {
-    font-size: 0.875rem;
-    padding: 8px;
-  }
-
-  .tab-buttons {
-    flex-direction: column;
-  }
-
   .tab-button {
-    width: 100%;
-    margin-bottom: 10px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .booking-select {
+    width: 200px;
   }
 }
+/* button {
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+} */
+
+
+
+

@@ -1,108 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { getFirestore, collection, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-// Define the Booking type
-interface Booking {
-  id: string;
-  dateTime: string;
-  vehicleSection: string;
-  vehicleModel: string;
-  insuranceAmount: number;
-  paidToRSA: boolean;
-}
+const CashReport = () => {
+  const navigate = useNavigate();
 
-const CashReport: React.FC = () => {
-  const showroomId = localStorage.getItem('showroomId');
-  const [bookings, setBookings] = useState<Booking[]>([]);
-
-  useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const db = getFirestore();
-        const statusConditions = ['booking added', 'Contacted Customer', 'Vehicle Picked', 'Vehicle Confirmed', 'To DropOff Location', 'Vehicle dropoff'];
-
-        const q = query(
-          collection(db, 'bookings'),
-          where('showroomId', '==', showroomId),
-          where('status', 'in', statusConditions)
-        );
-
-        const querySnapshot = await getDocs(q);
-        const bookingsData: Booking[] = [];
-
-        querySnapshot.forEach((doc) => {
-          const booking = doc.data() as Omit<Booking, 'id'>; // Cast to Omit type for safe data extraction
-          bookingsData.push({
-            id: doc.id,
-            ...booking,
-          });
-        });
-
-        setBookings(bookingsData);
-      } catch (error) {
-        console.error('Error fetching bookings:', error);
-      }
-    };
-
-    if (showroomId) {
-      fetchBookings();
-    } else {
-      console.error('showroomId is not available');
-    }
-  }, [showroomId]);
-
-  const handlePayment = async (bookingId: string) => {
-    try {
-      const db = getFirestore();
-      const bookingRef = doc(db, 'bookings', bookingId);
-      await updateDoc(bookingRef, {
-        paidToRSA: true,
-      });
-
-      const updatedBookings = bookings.map(booking => {
-        if (booking.id === bookingId) {
-          return { ...booking, paidToRSA: true };
-        }
-        return booking;
-      });
-
-      setBookings(updatedBookings);
-    } catch (error) {
-      console.error('Error marking booking as paid:', error);
-    }
-  };
+  const sections = [
+    {
+      title: "Service Center",
+      bgColor: "bg-gradient-to-r from-blue-200 to-blue-400 backdrop-blur-md bg-opacity-30",
+      btnColor: "bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:scale-105",
+      path: "/serviceCashreport",
+    },
+    {
+      title: "Body Shop",
+      bgColor: "bg-gradient-to-r from-green-200 to-green-400 backdrop-blur-md bg-opacity-30",
+      btnColor: "bg-green-600 hover:bg-green-700 hover:shadow-lg hover:scale-105",
+      path: "/bodyShopeCashreport",
+    },
+    {
+      title: "Showroom",
+      bgColor: "bg-gradient-to-r from-purple-200 to-purple-400 backdrop-blur-md bg-opacity-30",
+      btnColor: "bg-purple-600 hover:bg-purple-700 hover:shadow-lg hover:scale-105",
+      path: "/showroomCashreport",
+    },
+  ];
 
   return (
-    <div className="p-8 overflow-x-auto">
-      <h2 className="text-center mb-8 text-3xl font-bold text-gray-800">Cash Report</h2>
-      <table className="w-full border-collapse shadow-md table-fixed">
-        <thead className="bg-gray-200 border-b-2 border-gray-300">
-          <tr>
-            <th className="px-4 py-2 text-left font-bold min-w-1/4">Date and Time</th>
-            <th className="px-4 py-2 text-left font-bold min-w-1/4">Vehicle Section</th>
-            <th className="px-4 py-2 text-left font-bold min-w-1/4">Vehicle Model</th>
-            <th className="px-4 py-2 text-left font-bold min-w-1/4">Insurance Amount</th>
-            <th className="px-4 py-2 text-left font-bold min-w-1/4">Paid/Unpaid</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookings.map((booking) => (
-            <tr key={booking.id} className={`${booking.paidToRSA ? 'bg-gray-100 opacity-60' : ''}`}>
-              <td className="px-4 py-2 border border-gray-300">{booking.dateTime}</td>
-              <td className="px-4 py-2 border border-gray-300">{booking.vehicleSection}</td>
-              <td className="px-4 py-2 border border-gray-300">{booking.vehicleModel}</td>
-              <td className="px-4 py-2 border border-gray-300">{booking.insuranceAmount}</td>
-              <td className="px-4 py-2 border border-gray-300">
-                {booking.paidToRSA ? (
-                  <button className="px-4 py-2 bg-green-500 text-white rounded cursor-not-allowed">Paid</button>
-                ) : (
-                  <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400" onClick={() => handlePayment(booking.id)}>OK</button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="w-full max-w-5xl mx-auto p-6">
+      {/* Header with Animation */}
+      <h2 className="text-center uppercase text-4xl font-extrabold text-gray-900 p-6 shadow-xl rounded-xl bg-gradient-to-r from-gray-100 to-gray-300 border border-gray-400 tracking-wider animate-fade-in">
+        Showroom Report
+      </h2>
+
+      {/* Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+        {sections.map((section) => (
+          <div
+            key={section.title}
+            className={`p-8 ${section.bgColor} shadow-lg rounded-xl border border-gray-300 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl`}
+          >
+            <h3 className="text-2xl font-bold text-gray-800">{section.title}</h3>
+            <button
+              onClick={() => navigate(section.path)}
+              className={`mt-6 px-5 py-3 text-white text-lg font-semibold rounded-lg transition-all duration-300 ${section.btnColor} shadow-md`}
+            >
+              Cash Collection Details
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

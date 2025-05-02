@@ -17,7 +17,14 @@ import ShowRm from '../pages/ShowRooms/ShowRm';
 import AddBook from '../pages/ShowRooms/AddBook';
 import CashReport from '../pages/Report/CashReport';
 import QRLogin from '../pages/Authentication/QRLogin';
-// import ShowroomStaff from '../pages/ShowRooms/showroom staff/ShowroomStaff'
+import InvoiceReport from '../pages/Report/InvoiceReport';
+import Staff from '../pages/Staffs/Staff';
+import ViewMore from '../pages/Details/ViewMore';
+import ServiceCenterCashReport from '../pages/Report/ServiceCenterCashReport';
+import BodyShopeCashReport from '../pages/Report/BodyShopeCashReport';
+import ShowroomCashReport from '../pages/Report/ShowroomCashReport';
+import Reward from '../pages/Rewards/Reward';
+import Home from '../pages/Pages/Home';
 
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
@@ -143,13 +150,14 @@ const routes = [
     {
         path: '/showrm/qr',
         element: <QRLogin/>,
-        layout: 'blank',
+        // layout: 'blank',
 
     },
  
     {
         path: '/index',
         element: <Index />,
+        // layout: 'blank',
     },
 // showroom
 
@@ -157,7 +165,13 @@ const routes = [
 {
     path: '/showrm',
     element: <ShowRm/>,
-    layout: 'blank',
+    // layout: 'blank',
+
+},
+{
+    path: '/home',
+    element: <Home/>,
+    // layout: 'blank',
 
 },
 // {
@@ -169,7 +183,26 @@ const routes = [
 {
     path: '/addbook',
     element: <AddBook/>,
-    layout: 'blank',
+    // layout: 'blank',
+
+},
+{
+    path: '/staff',
+    element: <Staff/>,
+    // layout: 'blank',
+
+},
+{
+    path: '/rewards',
+    element: <Reward/>,
+    // layout: 'blank',
+
+},
+// details page
+{
+    path: '/showrm/viewmore/:id',
+    element: <ViewMore/>,
+    // layout: 'blank',
 
 },
     // analytics page
@@ -185,9 +218,28 @@ const routes = [
     {
         path: '/cashreport',
         element: <CashReport />,
-        layout: 'blank',
+        // layout: 'blank',
 
     },
+
+{
+    path: '/serviceCashreport',
+    element: <ServiceCenterCashReport />,
+    // layout: 'blank',
+
+},
+{
+    path: '/bodyShopeCashreport',
+    element: <BodyShopeCashReport />,
+    // layout: 'blank',
+
+},
+{
+    path: '/showroomCashreport',
+    element: <ShowroomCashReport />,
+    // layout: 'blank',
+
+},
     // crypto page
     {
         path: '/crypto',
@@ -228,9 +280,14 @@ const routes = [
     },
     // preview page
     {
-        path: '/apps/invoice/preview',
+        path: '/apps/invoice/preview/:id',
         element: <Preview />,
     },
+    {
+        path: '/invoiceReport/',
+        element: <InvoiceReport />,
+    },
+    
     {
         path: '/apps/invoice/add',
         element: <Add />,
